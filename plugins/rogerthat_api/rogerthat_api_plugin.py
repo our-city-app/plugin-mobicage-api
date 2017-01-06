@@ -17,7 +17,7 @@
 
 from plugin_loader import Plugin
 from plugins.rogerthat_api.callbacks import CallbackRequestHandler, subscribe_callback
-from utils import Handler
+from utils.plugins import Handler
 
 
 class RogerthatApiPlugin(Plugin):
