@@ -1,3 +1,6 @@
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/99f4ec663f24488db772c8900d2d08ec)](https://www.codacy.com/app/lucas-vanhalst/plugin-rogerthat-api?utm_source=github.com&utm_medium=referral&utm_content=rogerthat-platform/plugin-rogerthat-api&utm_campaign=badger)
+
 To receive callbacks from rogerthat you need to setup your rogerthat settings:
 
 You can find API_KEY, SIK_KEY in the service panels of your service.
