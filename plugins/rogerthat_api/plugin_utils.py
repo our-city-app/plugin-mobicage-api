@@ -17,6 +17,7 @@
 
 import inspect
 
+
 class Enum(object):
     @classmethod
     def all(cls):

@@ -83,7 +83,7 @@ class ChatFlags(Enum):
                              ALLOW_VIDEO: Message.FLAG_ALLOW_CHAT_VIDEO,
                              ALLOW_PRIORITY: Message.FLAG_ALLOW_CHAT_PRIORITY,
                              ALLOW_STICKY: Message.FLAG_ALLOW_CHAT_STICKY,
-                             READ_ONLY:-(Message.FLAG_ALLOW_REPLY | Message.FLAG_ALLOW_REPLY_ALL)}
+                             READ_ONLY: -(Message.FLAG_ALLOW_REPLY | Message.FLAG_ALLOW_REPLY_ALL)}
 
     @classmethod
     def message_flag(cls, chat_flag):

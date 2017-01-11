@@ -30,6 +30,7 @@ def break_up(api_key, email, service_identity=None, app_id=None, json_rpc_id=Non
                                app_id=app_id),
                    json_rpc_id=json_rpc_id)
 
+
 @returns(ServiceFriendStatusTO)
 @arguments(api_key=unicode, email=unicode, app_id=unicode, service_identity=unicode, json_rpc_id=unicode)
 def get_status(api_key, email, app_id, service_identity=None, json_rpc_id=None):

@@ -32,6 +32,7 @@ def get_status(api_key, json_rpc_id=None):
                             json_rpc_id=json_rpc_id)
     return result
 
+
 @returns()
 @arguments(api_key=unicode, enable_on_success=bool, callback_name=unicode, json_rpc_id=unicode)
 def validate_callback_configuration(api_key, enable_on_success=True, callback_name=None, json_rpc_id=None):
@@ -40,6 +41,7 @@ def validate_callback_configuration(api_key, enable_on_success=True, callback_na
                    params=dict(enable_on_success=enable_on_success,
                                callback_name=callback_name),
                    json_rpc_id=json_rpc_id)
+
 
 @returns()
 @arguments(api_key=unicode, json_rpc_id=unicode)

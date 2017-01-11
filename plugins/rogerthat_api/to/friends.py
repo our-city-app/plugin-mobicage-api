@@ -15,8 +15,8 @@
 #
 # @@license_version:1.1@@
 
-from mcfw.properties import unicode_property, unicode_list_property, long_list_property, typed_property, bool_property, \
-    long_property
+from mcfw.properties import unicode_property, unicode_list_property, long_list_property, typed_property, \
+    bool_property, long_property
 
 
 ACCEPT_ID = u"accepted"

@@ -35,11 +35,13 @@ class BaseFlowStepTO(object):
     def get_value(self):
         raise NotImplementedError()
 
+
 class MessageFlowStepTO(BaseFlowStepTO):
     TYPE = BaseFlowStepTO.TYPE_MESSAGE
 
     def get_value(self):
         return self.answer_id
+
 
 class FormFlowStepTO(BaseFlowStepTO):
     TYPE = BaseFlowStepTO.TYPE_FORM
@@ -53,4 +55,5 @@ class FormFlowStepTO(BaseFlowStepTO):
         else:
             return None
 
-FLOW_STEP_MAPPING = { MessageFlowStepTO.TYPE: MessageFlowStepTO, FormFlowStepTO.TYPE: FormFlowStepTO }
+
+FLOW_STEP_MAPPING = {MessageFlowStepTO.TYPE: MessageFlowStepTO, FormFlowStepTO.TYPE: FormFlowStepTO}

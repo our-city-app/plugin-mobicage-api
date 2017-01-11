@@ -26,7 +26,10 @@ from mcfw.consts import DEBUG
 from plugins.rogerthat_api.exceptions import BusinessException
 from utils import azzert, guid
 
-ROGERTHAT_API_URL = ('http://%s:8080/api/1' % os.environ['SERVER_NAME']) if DEBUG else 'https://mobicagecloudhr.appspot.com/api/1'
+if DEBUG:
+    ROGERTHAT_API_URL = ('http://%s:8080/api/1' % os.environ['SERVER_NAME'])
+else:
+    ROGERTHAT_API_URL = 'https://mobicagecloudhr.appspot.com/api/1'
 
 
 class RogerthatApiException(BusinessException):
