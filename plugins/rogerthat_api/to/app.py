@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2016 Mobicage NV
+# Copyright 2017 Green IT Globe NV
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,18 +15,16 @@
 #
 # @@license_version:1.1@@
 
-from plugins.rogerthat_api.api import system
-from plugins.rogerthat_api.models.settings import RogerthatSettings
+from mcfw.consts import MISSING
+from mcfw.properties import bool_property, long_list_property
 
 
-def create_app_settings(api_key, sik, ref):
-    system.validate_callback_configuration(api_key)
+class AppSettingsTO(object):
+    wifi_only_downloads = bool_property('1')
+    background_fetch_timestamps = long_list_property('2')
 
-    k = RogerthatSettings.create_key(sik)
-    rogerthat_settings = k.get()
-    if not rogerthat_settings:
-        rogerthat_settings = RogerthatSettings(key=k)
-
-    rogerthat_settings.api_key = api_key
-    rogerthat_settings.ref = ref
-    rogerthat_settings.put()
+    def __init__(self, wifi_only_downloads=MISSING, background_fetch_timestamps=MISSING):
+        if wifi_only_downloads is not MISSING:
+            self.wifi_only_downloads = wifi_only_downloads
+        if background_fetch_timestamps is not MISSING:
+            self.background_fetch_timestamps = background_fetch_timestamps

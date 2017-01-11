@@ -8,7 +8,7 @@ Before running the code below in the 'interactive_explorer' you will need to cor
 
 ```python
 def setup_settings():
-    from plugins.rogerthat_api.bizz import create_app_settings
+    from plugins.rogerthat_api.plugin_bizz import create_app_settings
     create_app_settings("API_KEY", "SIK_KEY", "REFERENCE")
 
 def setup_callbacks():

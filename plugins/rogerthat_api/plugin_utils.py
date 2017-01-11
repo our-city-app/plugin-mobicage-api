@@ -15,19 +15,9 @@
 #
 # @@license_version:1.1@@
 
-from google.appengine.ext import ndb
+import inspect
 
-from plugins.rogerthat_api import plugin_consts
-
-
-class RogerthatSettings(ndb.Model):
-    api_key = ndb.StringProperty(indexed=False)
-    ref = ndb.StringProperty(indexed=False)
-
-    @property
-    def sik(self):
-        return self.key.id().decode('utf8')
-
+class Enum(object):
     @classmethod
-    def create_key(cls, sik):
-        return ndb.Key(cls, sik, namespace=plugin_consts.NAMESPACE)
+    def all(cls):
+        return [getattr(cls, a) for a in dir(cls) if not a.startswith('_') and not inspect.ismethod(getattr(cls, a))]

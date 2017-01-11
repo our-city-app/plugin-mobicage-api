@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2016 Mobicage NV
+# Copyright 2017 Green IT Globe NV
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,9 @@
 #
 # @@license_version:1.1@@
 
-from mcfw.properties import unicode_property, unicode_list_property, long_list_property, typed_property
+from mcfw.properties import unicode_property, unicode_list_property, long_list_property, typed_property, bool_property, \
+    long_property
+
 
 ACCEPT_ID = u"accepted"
 ACCEPT_AND_CONNECT_ID = u"accept_and_connect"
@@ -36,3 +38,17 @@ class RegistrationResultTO(object):
     result = unicode_property('1')
     auto_connected_services = unicode_list_property('2')
     roles = typed_property('3', RegistrationResultRolesTO, True)
+
+
+class ServiceFriendTO(object):
+    email = unicode_property('1')
+    name = unicode_property('2')
+    avatar = unicode_property('3')
+    language = unicode_property('4')
+    app_id = unicode_property('5')
+    app_name = unicode_property('6')
+
+
+class ServiceFriendStatusTO(ServiceFriendTO):
+    is_friend = bool_property('101')
+    last_heartbeat = long_property('102')

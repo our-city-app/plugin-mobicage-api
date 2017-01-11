@@ -15,19 +15,15 @@
 #
 # @@license_version:1.1@@
 
-from google.appengine.ext import ndb
-
-from plugins.rogerthat_api import plugin_consts
+from plugins.rogerthat_api.models.settings import RogerthatSettings
 
 
-class RogerthatSettings(ndb.Model):
-    api_key = ndb.StringProperty(indexed=False)
-    ref = ndb.StringProperty(indexed=False)
+def create_app_settings(api_key, sik, ref):
+    k = RogerthatSettings.create_key(sik)
+    rogerthat_settings = k.get()
+    if not rogerthat_settings:
+        rogerthat_settings = RogerthatSettings(key=k)
 
-    @property
-    def sik(self):
-        return self.key.id().decode('utf8')
-
-    @classmethod
-    def create_key(cls, sik):
-        return ndb.Key(cls, sik, namespace=plugin_consts.NAMESPACE)
+    rogerthat_settings.api_key = api_key
+    rogerthat_settings.ref = ref
+    rogerthat_settings.put()

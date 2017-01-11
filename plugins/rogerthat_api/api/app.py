@@ -15,19 +15,16 @@
 #
 # @@license_version:1.1@@
 
-from google.appengine.ext import ndb
+from mcfw.rpc import returns, arguments, serialize_complex_value
+from plugins.rogerthat_api.api import call_rogerthat
+from plugins.rogerthat_api.to.app import AppSettingsTO
 
-from plugins.rogerthat_api import plugin_consts
 
-
-class RogerthatSettings(ndb.Model):
-    api_key = ndb.StringProperty(indexed=False)
-    ref = ndb.StringProperty(indexed=False)
-
-    @property
-    def sik(self):
-        return self.key.id().decode('utf8')
-
-    @classmethod
-    def create_key(cls, sik):
-        return ndb.Key(cls, sik, namespace=plugin_consts.NAMESPACE)
+@returns()
+@arguments(api_key=unicode, settings=AppSettingsTO, app_id=unicode, json_rpc_id=unicode)
+def put_settings(api_key, settings, app_id=None, json_rpc_id=None):
+    call_rogerthat(api_key,
+                   method="app.put_settings",
+                   params=dict(settings=serialize_complex_value(settings, AppSettingsTO, False),
+                               app_id=app_id),
+                   json_rpc_id=json_rpc_id)

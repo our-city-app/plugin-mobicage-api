@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2016 Mobicage NV
+# Copyright 2017 Green IT Globe NV
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ from mcfw.consts import DEBUG
 from plugins.rogerthat_api.exceptions import BusinessException
 from utils import azzert, guid
 
-ROGERTHAT_API_URL = ('http://%s:8080/api/1' % os.environ['SERVER_NAME']) if DEBUG else 'https://rogerth.at/api/1'
+ROGERTHAT_API_URL = ('http://%s:8080/api/1' % os.environ['SERVER_NAME']) if DEBUG else 'https://mobicagecloudhr.appspot.com/api/1'
 
 
 class RogerthatApiException(BusinessException):
@@ -43,7 +43,7 @@ class RogerthatApiStatusCodeException(BusinessException):
         Exception.__init__(self, 'Outgoing Rogerthat API call returned status code %s' % status_code)
 
 
-def call_rogerthat(api_key, method, params):
+def call_rogerthat(api_key, method, params, json_rpc_id=None):
     azzert(api_key, 'No API_KEY provided')
 
     headers = {
@@ -51,7 +51,7 @@ def call_rogerthat(api_key, method, params):
         'X-Nuntiuz-API-key': api_key
     }
 
-    request = dict(id=guid(), method=method, params=params)
+    request = dict(id=json_rpc_id or guid(), method=method, params=params)
     json_request = json.dumps(request)
     logging.debug('Outgoing Rogerthat API call:\n%s', json_request)
 
