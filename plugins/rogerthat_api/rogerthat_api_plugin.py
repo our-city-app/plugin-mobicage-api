@@ -15,9 +15,9 @@
 #
 # @@license_version:1.1@@
 
-from plugin_loader import Plugin
+from framework.plugin_loader import Plugin
+from framework.utils.plugins import Handler
 from plugins.rogerthat_api.callbacks import CallbackRequestHandler, subscribe_callback
-from utils.plugins import Handler
 
 
 class RogerthatApiPlugin(Plugin):

@@ -22,9 +22,9 @@ import os
 
 from google.appengine.api import urlfetch
 
+from framework.utils import azzert, guid
 from mcfw.consts import DEBUG
 from plugins.rogerthat_api.exceptions import BusinessException
-from utils import azzert, guid
 
 if DEBUG:
     ROGERTHAT_API_URL = ('http://%s:8080/api/1' % os.environ['SERVER_NAME'])
