@@ -22,7 +22,7 @@ from plugins.rogerthat_api import plugin_consts
 
 class RogerthatSettings(ndb.Model):
     api_key = ndb.StringProperty(indexed=False)
-    ref = ndb.StringProperty(indexed=False)
+    ref = ndb.StringProperty()
 
     @property
     def sik(self):
