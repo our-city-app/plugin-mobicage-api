@@ -26,5 +26,5 @@ class RogerthatApiPlugin(Plugin):
         if auth == Handler.AUTH_UNAUTHENTICATED:
             yield Handler(url='/plugins/rogerthat_api/callback_api', handler=CallbackRequestHandler)
 
-    def subscribe(self, method, f):
-        subscribe_callback(method, f)
+    def subscribe(self, method, f, trigger_only=False):
+        subscribe_callback(method, f, trigger_only)

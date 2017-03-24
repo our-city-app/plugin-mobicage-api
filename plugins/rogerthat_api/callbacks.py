@@ -15,17 +15,24 @@
 #
 # @@license_version:1.1@@
 
+from collections import defaultdict
 import json
 import logging
 
+from google.appengine.ext import deferred
+from plugins.rogerthat_api.models.settings import RogerthatSettings
 import webapp2
 
-from plugins.rogerthat_api.models.settings import RogerthatSettings
 
 _callbacks = {}
+_trigger_callbacks = defaultdict(list)
 
 
-def subscribe_callback(method, f):
+def subscribe_callback(method, f, trigger_only):
+    if trigger_only:
+        _trigger_callbacks[method].append(f)
+        return
+
     if method in _callbacks:
         raise Exception('Already subscribed to method \'%s\'', method)
     _callbacks[method] = f
@@ -54,6 +61,10 @@ def process_callback(request, rt_settings):
             response['result'] = None
             response['error'] = str(e)
             logging.exception('Incoming %s Rogerthat callback failed.', method)
+
+    if method in _trigger_callbacks:
+        for f in _trigger_callbacks[method]:
+            deferred.defer(f, rt_settings, id_, params, response)
 
     logging.debug('Response for incoming %s Rogerthat callback:\n%s', method, response)
     return response
