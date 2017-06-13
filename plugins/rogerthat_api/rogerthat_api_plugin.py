@@ -35,7 +35,7 @@ class RogerthatApiPlugin(Plugin):
                                                  False)  # type: RogerthatApiPluginConfiguration
         if self.configuration.rogerthat_server_url is MISSING \
             or not self.configuration.rogerthat_server_url \
-            or self.configuration.rogerthat_server_url == 'https://rogerth.at':
+                or self.configuration.rogerthat_server_url == 'https://rogerth.at':
             logging.warn('[RogerthatApiPlugin]: Set the \'rogerthat_server_url\' in the configuration file'
                          'to an appengine application url (<project-id>.appspot.com) to decrease the latency of the'
                          ' requests to rogerthat.')
