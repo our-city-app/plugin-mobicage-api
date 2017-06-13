@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
+from __future__ import unicode_literals
 
 import logging
 
