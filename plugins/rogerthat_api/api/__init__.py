@@ -18,18 +18,13 @@
 import httplib
 import json
 import logging
-import os
 
 from google.appengine.api import urlfetch
 
+from framework.plugin_loader import get_plugin
 from framework.utils import azzert, guid
-from mcfw.consts import DEBUG
 from plugins.rogerthat_api.exceptions import BusinessException
-
-if DEBUG:
-    ROGERTHAT_API_URL = ('http://%s:8080/api/1' % os.environ['SERVER_NAME'])
-else:
-    ROGERTHAT_API_URL = 'https://mobicagecloudhr.appspot.com/api/1'
+from plugins.rogerthat_api.plugin_consts import NAMESPACE
 
 
 class RogerthatApiException(BusinessException):
@@ -58,7 +53,8 @@ def call_rogerthat(api_key, method, params, json_rpc_id=None):
     json_request = json.dumps(request)
     logging.debug('Outgoing Rogerthat API call:\n%s', json_request)
 
-    result = urlfetch.fetch(ROGERTHAT_API_URL, json_request, method=urlfetch.POST, headers=headers, deadline=600)
+    api_url = '%s/api/1' % get_plugin(NAMESPACE).configuration.rogerthat_server_url
+    result = urlfetch.fetch(api_url, json_request, method=urlfetch.POST, headers=headers, deadline=600)
     if result.status_code != httplib.OK:
         raise RogerthatApiStatusCodeException(result.status_code)
 

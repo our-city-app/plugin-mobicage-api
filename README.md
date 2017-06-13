@@ -18,3 +18,19 @@ def setup_callbacks():
         put_callback(U'API_KEY', f)
                         
 ```
+
+## Configuration
+
+To add this plugin to your application, add this to your configuration.json file in the "plugins" key
+
+```json
+{
+  "name": "rogerthat_api",
+  "order": 0,
+  "version": "master",
+  "url": "https://github.com/rogerthat-platform/plugin-rogerthat-api.git",
+  "configuration": {
+    "rogerthat_server_url": "https://rogerth.at"
+  }
+}
+```
