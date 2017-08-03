@@ -41,32 +41,7 @@ class Widget(object):
     TYPE_GPS_LOCATION = u"gps_location"
     TYPE_MYDIGIPASS = u"mydigipass"
     TYPE_ADVANCED_ORDER = u"advanced_order"
-
-
-class FormTO(object):
-    POSITIVE = u'positive'
-    NEGATIVE = u'negative'
-    type = unicode_property('1')  # @ReservedAssignment
-    widget = typed_property('2', Widget, False, subtype_attr_name="type", subtype_mapping=WIDGET_TO_MAPPING)
-    positive_button = unicode_property('3')
-    negative_button = unicode_property('4')
-    positive_confirmation = unicode_property('5')
-    negative_confirmation = unicode_property('6')
-    positive_button_ui_flags = long_property('7')
-    negative_button_ui_flags = long_property('8')
-    javascript_validation = unicode_property('9', default=None)
-
-    def __init__(self):
-        self.positive_confirmation = None
-        self.negative_confirmation = None
-        self.javascript_validation = None
-        self.positive_button_ui_flags = 0
-        self.negative_button_ui_flags = 0
-
-
-class FormMessageTO(BaseMessageTO):
-    form = typed_property('51', FormTO, False)
-    member = typed_property('52', MemberStatusTO, False)
+    TYPE_SIGN = u"sign"
 
 
 class ChoiceTO(object):
@@ -93,24 +68,8 @@ class TextLineTO(TextWidget):
     TYPE = Widget.TYPE_TEXT_LINE
 
 
-class TextLineFormTO(FormTO):
-    widget = typed_property('2', TextLineTO, False)
-
-
-class TextLineFormMessageTO(FormMessageTO):
-    form = typed_property('51', TextLineFormTO, False)
-
-
 class TextBlockTO(TextWidget):
     TYPE = Widget.TYPE_TEXT_BLOCK
-
-
-class TextBlockFormTO(FormTO):
-    widget = typed_property('2', TextBlockTO, False)
-
-
-class TextBlockFormMessageTO(FormMessageTO):
-    form = typed_property('51', TextBlockFormTO, False)
 
 
 class AutoCompleteTO(TextWidget):
@@ -118,26 +77,10 @@ class AutoCompleteTO(TextWidget):
     suggestions = unicode_list_property('101')
 
 
-class AutoCompleteFormTO(FormTO):
-    widget = typed_property('2', AutoCompleteTO, False)
-
-
-class AutoCompleteFormMessageTO(FormMessageTO):
-    form = typed_property('51', AutoCompleteFormTO, False)
-
-
 class FriendSelectTO(Widget):
     TYPE = Widget.TYPE_FRIEND_SELECT
     selection_required = bool_property('51', default=True)
     multi_select = bool_property('52', default=False)
-
-
-class FriendSelectFormTO(FormTO):
-    widget = typed_property('2', FriendSelectTO, False)
-
-
-class FriendSelectFormMessageTO(FormMessageTO):
-    form = typed_property('51', FriendSelectFormTO, False)
 
 
 class SelectWidget(Widget):
@@ -149,25 +92,9 @@ class SingleSelectTO(SelectWidget):
     value = unicode_property('101', empty_string_is_null=True)
 
 
-class SingleSelectFormTO(FormTO):
-    widget = typed_property('2', SingleSelectTO, False)
-
-
-class SingleSelectFormMessageTO(FormMessageTO):
-    form = typed_property('51', SingleSelectFormTO, False)
-
-
 class MultiSelectTO(SelectWidget):
     TYPE = Widget.TYPE_MULTI_SELECT
     values = unicode_list_property('101')
-
-
-class MultiSelectFormTO(FormTO):
-    widget = typed_property('2', MultiSelectTO, False)
-
-
-class MultiSelectFormMessageTO(FormMessageTO):
-    form = typed_property('51', MultiSelectFormTO, False)
 
 
 class DateSelectTO(Widget):
@@ -189,14 +116,6 @@ class DateSelectTO(Widget):
     unit = unicode_property('59')
 
 
-class DateSelectFormTO(FormTO):
-    widget = typed_property('2', DateSelectTO, False)
-
-
-class DateSelectFormMessageTO(FormMessageTO):
-    form = typed_property('51', DateSelectFormTO, False)
-
-
 class SliderWidget(Widget):
     min = float_property('51')
     max = float_property('52')
@@ -210,26 +129,10 @@ class SingleSliderTO(SliderWidget):
     value = float_property('101')
 
 
-class SingleSliderFormTO(FormTO):
-    widget = typed_property('2', SingleSliderTO, False)
-
-
-class SingleSliderFormMessageTO(FormMessageTO):
-    form = typed_property('51', SingleSliderFormTO, False)
-
-
 class RangeSliderTO(SliderWidget):
     TYPE = Widget.TYPE_RANGE_SLIDER
     low_value = float_property('101')
     high_value = float_property('102')
-
-
-class RangeSliderFormTO(FormTO):
-    widget = typed_property('2', RangeSliderTO, False)
-
-
-class RangeSliderFormMessageTO(FormMessageTO):
-    form = typed_property('51', RangeSliderFormTO, False)
 
 
 class PhotoUploadTO(Widget):
@@ -242,25 +145,9 @@ class PhotoUploadTO(Widget):
     ratio = unicode_property('54')
 
 
-class PhotoUploadFormTO(FormTO):
-    widget = typed_property('2', PhotoUploadTO, False)
-
-
-class PhotoUploadFormMessageTO(FormMessageTO):
-    form = typed_property('51', PhotoUploadFormTO, False)
-
-
 class GPSLocationTO(Widget):
     TYPE = Widget.TYPE_GPS_LOCATION
     gps = bool_property('51')
-
-
-class GPSLocationFormTO(FormTO):
-    widget = typed_property('2', GPSLocationTO, False)
-
-
-class GPSLocationFormMessageTO(FormMessageTO):
-    form = typed_property('51', GPSLocationFormTO, False)
 
 
 class MdpScope(Enum):
@@ -276,14 +163,6 @@ class MdpScope(Enum):
 class MyDigiPassTO(Widget):
     TYPE = Widget.TYPE_MYDIGIPASS
     scope = unicode_property('51', default=MdpScope.EID_PROFILE)
-
-
-class MyDigiPassFormTO(FormTO):
-    widget = typed_property('2', MyDigiPassTO, False)
-
-
-class MyDigiPassFormMessageTO(FormMessageTO):
-    form = typed_property('51', MyDigiPassFormTO, False)
 
 
 class AdvancedOrderItemTO(object):
@@ -312,12 +191,13 @@ class AdvancedOrderTO(Widget):
     categories = typed_property('53', AdvancedOrderCategoryTO, True)
 
 
-class AdvancedOrderFormTO(FormTO):
-    widget = typed_property('2', AdvancedOrderTO, False)
-
-
-class AdvancedOrderFormMessageTO(FormMessageTO):
-    form = typed_property('51', AdvancedOrderFormTO, False)
+class SignTO(Widget):
+    TYPE = Widget.TYPE_SIGN
+    payload = unicode_property('51')
+    caption = unicode_property('52', default=None)
+    algorithm = unicode_property('53', default=None)
+    key_name = unicode_property('54', default=None)
+    index = unicode_property('55', default=None)
 
 
 class WidgetResult(object):
@@ -330,7 +210,6 @@ class WidgetResult(object):
     TYPE_LOCATION = u"location_result"
     TYPE_MYDIGIPASS = u"mydigipass_result"
     TYPE_ADVANCED_ORDER = u"advanced_order_result"
-    TYPE_SIGN = u"sign"
 
     def get_value(self):
         raise NotImplementedError()
@@ -461,26 +340,6 @@ class AdvancedOrderWidgetResultTO(WidgetResult):
         return self
 
 
-class SignTO(Widget):
-    TYPE = WidgetResult.TYPE_SIGN
-    payload = unicode_property('51')
-    caption = unicode_property('52')
-
-
-class SignFormTO(FormTO):
-    widget = typed_property('2', SignTO, False)
-
-
-class SignFormMessageTO(FormMessageTO):
-    form = typed_property('51', SignFormTO, False)
-
-
-class FormResultTO(object):
-    type = unicode_property('1')  # @ReservedAssignment
-    result = typed_property('2', WidgetResult, False, subtype_attr_name="type",
-                            subtype_mapping=WIDGET_RESULT_TO_MAPPING)
-
-
 WIDGET_TO_MAPPING.update(
     {cls.TYPE: cls for cls in (TextLineTO, TextBlockTO, AutoCompleteTO, SingleSelectTO, MultiSelectTO, DateSelectTO,
                                FriendSelectTO, SingleSliderTO, RangeSliderTO, GPSLocationTO, PhotoUploadTO,
@@ -490,3 +349,147 @@ WIDGET_RESULT_TO_MAPPING.update(
     {cls.TYPE: cls for cls in (
         UnicodeWidgetResultTO, UnicodeListWidgetResultTO, LongWidgetResultTO, LongListWidgetResultTO,
         FloatWidgetResultTO, FloatListWidgetResultTO, LocationWidgetResultTO, AdvancedOrderWidgetResultTO)})
+
+
+class FormTO(object):
+    POSITIVE = u'positive'
+    NEGATIVE = u'negative'
+    type = unicode_property('1')  # @ReservedAssignment
+    widget = typed_property('2', Widget, False, subtype_attr_name="type", subtype_mapping=WIDGET_TO_MAPPING)
+    positive_button = unicode_property('3')
+    negative_button = unicode_property('4')
+    positive_confirmation = unicode_property('5')
+    negative_confirmation = unicode_property('6')
+    positive_button_ui_flags = long_property('7')
+    negative_button_ui_flags = long_property('8')
+    javascript_validation = unicode_property('9', default=None)
+
+    def __init__(self):
+        self.positive_confirmation = None
+        self.negative_confirmation = None
+        self.javascript_validation = None
+        self.positive_button_ui_flags = 0
+        self.negative_button_ui_flags = 0
+
+
+class FormMessageTO(BaseMessageTO):
+    form = typed_property('51', FormTO, False)
+    member = typed_property('52', MemberStatusTO, False)
+
+
+class FormResultTO(object):
+    type = unicode_property('1')  # @ReservedAssignment
+    result = typed_property('2', WidgetResult, False, subtype_attr_name="type",
+                            subtype_mapping=WIDGET_RESULT_TO_MAPPING)
+
+
+class TextLineFormTO(FormTO):
+    widget = typed_property('2', TextLineTO, False)
+
+
+class TextLineFormMessageTO(FormMessageTO):
+    form = typed_property('51', TextLineFormTO, False)
+
+
+class TextBlockFormTO(FormTO):
+    widget = typed_property('2', TextBlockTO, False)
+
+
+class TextBlockFormMessageTO(FormMessageTO):
+    form = typed_property('51', TextBlockFormTO, False)
+
+
+class AutoCompleteFormTO(FormTO):
+    widget = typed_property('2', AutoCompleteTO, False)
+
+
+class AutoCompleteFormMessageTO(FormMessageTO):
+    form = typed_property('51', AutoCompleteFormTO, False)
+
+
+class FriendSelectFormTO(FormTO):
+    widget = typed_property('2', FriendSelectTO, False)
+
+
+class FriendSelectFormMessageTO(FormMessageTO):
+    form = typed_property('51', FriendSelectFormTO, False)
+
+
+class SingleSelectFormTO(FormTO):
+    widget = typed_property('2', SingleSelectTO, False)
+
+
+class SingleSelectFormMessageTO(FormMessageTO):
+    form = typed_property('51', SingleSelectFormTO, False)
+
+
+class MultiSelectFormTO(FormTO):
+    widget = typed_property('2', MultiSelectTO, False)
+
+
+class MultiSelectFormMessageTO(FormMessageTO):
+    form = typed_property('51', MultiSelectFormTO, False)
+
+
+class DateSelectFormTO(FormTO):
+    widget = typed_property('2', DateSelectTO, False)
+
+
+class DateSelectFormMessageTO(FormMessageTO):
+    form = typed_property('51', DateSelectFormTO, False)
+
+
+class SingleSliderFormTO(FormTO):
+    widget = typed_property('2', SingleSliderTO, False)
+
+
+class SingleSliderFormMessageTO(FormMessageTO):
+    form = typed_property('51', SingleSliderFormTO, False)
+
+
+class RangeSliderFormTO(FormTO):
+    widget = typed_property('2', RangeSliderTO, False)
+
+
+class RangeSliderFormMessageTO(FormMessageTO):
+    form = typed_property('51', RangeSliderFormTO, False)
+
+
+class PhotoUploadFormTO(FormTO):
+    widget = typed_property('2', PhotoUploadTO, False)
+
+
+class PhotoUploadFormMessageTO(FormMessageTO):
+    form = typed_property('51', PhotoUploadFormTO, False)
+
+
+class GPSLocationFormTO(FormTO):
+    widget = typed_property('2', GPSLocationTO, False)
+
+
+class GPSLocationFormMessageTO(FormMessageTO):
+    form = typed_property('51', GPSLocationFormTO, False)
+
+
+class MyDigiPassFormTO(FormTO):
+    widget = typed_property('2', MyDigiPassTO, False)
+
+
+class MyDigiPassFormMessageTO(FormMessageTO):
+    form = typed_property('51', MyDigiPassFormTO, False)
+
+
+class AdvancedOrderFormTO(FormTO):
+    widget = typed_property('2', AdvancedOrderTO, False)
+
+
+class AdvancedOrderFormMessageTO(FormMessageTO):
+    form = typed_property('51', AdvancedOrderFormTO, False)
+
+
+class SignFormTO(FormTO):
+    widget = typed_property('2', SignTO, False)
+
+
+class SignFormMessageTO(FormMessageTO):
+    form = typed_property('51', SignFormTO, False)
