@@ -67,6 +67,11 @@ class Message(object):
     UI_FLAG_EXPECT_NEXT_WAIT_5 = 1
     UI_FLAG_AUTHORIZE_LOCATION = 2
 
+    STATUS_RECEIVED = 1
+    STATUS_ACKED = 2
+    STATUS_READ = 4
+    STATUS_DELETED = 8
+
 
 class ChatFlags(Enum):
     NOT_REMOVABLE = 1
