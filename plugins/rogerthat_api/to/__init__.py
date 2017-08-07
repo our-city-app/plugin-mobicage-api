@@ -15,7 +15,14 @@
 #
 # @@license_version:1.3@@
 
-from mcfw.properties import unicode_property, long_property
+from mcfw.properties import unicode_property, long_property, typed_property, bool_property
+
+
+class PublicKeyTO(object):
+    algorithm = unicode_property('1', default=None)
+    name = unicode_property('2', default=None)
+    index = unicode_property('3', default=None)
+    public_key = unicode_property('4', default=None)  # base64
 
 
 class UserDetailsTO(object):
@@ -24,7 +31,8 @@ class UserDetailsTO(object):
     language = unicode_property('3')
     avatar_url = unicode_property('4')
     app_id = unicode_property('5')
-    public_key = unicode_property('6')
+    public_key = unicode_property('6')  # Deprecated
+    public_keys = typed_property('7', PublicKeyTO, True, default=[])
 
 
 class BaseMemberTO(object):
@@ -34,3 +42,15 @@ class BaseMemberTO(object):
 
 class MemberTO(BaseMemberTO):
     alert_flags = long_property('3')
+
+
+class ReturnStatusTO(object):
+    success = bool_property('1')
+    errormsg = unicode_property('2')
+
+    @classmethod
+    def create(cls, success=True, errormsg=None):
+        r = cls()
+        r.success = success
+        r.errormsg = unicode(errormsg) if errormsg else None
+        return r
