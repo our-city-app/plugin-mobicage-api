@@ -122,7 +122,7 @@ def get_user_data(api_key, email, app_id, user_data_keys, service_identity=None,
                             method="system.get_user_data",
                             params=params,
                             json_rpc_id=json_rpc_id)
-    return result
+    return json.loads(result)
 
 
 @returns()
