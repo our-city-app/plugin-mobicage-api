@@ -16,14 +16,14 @@
 # @@license_version:1.3@@
 
 from mcfw.rpc import returns, arguments, parse_complex_value
-from plugins.rogerthat_api.to.qr import QRDetailsTO
 from plugins.rogerthat_api.api import call_rogerthat
+from plugins.rogerthat_api.to.qr import QRDetailsTO
 
 
 @returns(QRDetailsTO)
-@arguments(api_key=unicode, description=unicode, tag=unicode, template_key=unicode, service_identity=unicode, 
+@arguments(api_key=unicode, description=unicode, tag=unicode, template_key=unicode, service_identity=unicode,
            flow=unicode, branding=unicode, json_rpc_id=unicode)
-def create(api_key, description, tag, template_key=None, service_identity=None, flow=None, branding=None, 
+def create(api_key, description, tag, template_key=None, service_identity=None, flow=None, branding=None,
            json_rpc_id=None):
     result = call_rogerthat(api_key,
                             method='qr.create',

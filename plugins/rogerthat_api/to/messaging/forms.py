@@ -15,12 +15,11 @@
 #
 # @@license_version:1.3@@
 
-from mcfw.properties import float_property
-from mcfw.properties import unicode_property, long_property, typed_property, unicode_list_property, \
+from mcfw.properties import float_property, unicode_property, long_property, typed_property, unicode_list_property, \
     bool_property, long_list_property, float_list_property
 from plugins.rogerthat_api.plugin_utils import Enum
+from plugins.rogerthat_api.to import PublicKeyTO
 from plugins.rogerthat_api.to.messaging import MemberStatusTO, BaseMessageTO
-
 
 # these dicts are populated at the bottom of this file
 WIDGET_TO_MAPPING = dict()
@@ -210,6 +209,7 @@ class WidgetResult(object):
     TYPE_LOCATION = u"location_result"
     TYPE_MYDIGIPASS = u"mydigipass_result"
     TYPE_ADVANCED_ORDER = u"advanced_order_result"
+    TYPE_SIGN = u'sign_result'
 
     def get_value(self):
         raise NotImplementedError()
@@ -340,6 +340,16 @@ class AdvancedOrderWidgetResultTO(WidgetResult):
         return self
 
 
+class SignWidgetResultTO(WidgetResult):
+    TYPE = WidgetResult.TYPE_SIGN
+    payload_signature = unicode_property('50')
+    total_signature = unicode_property('51')
+    public_key = typed_property('52', PublicKeyTO)
+
+    def get_value(self):
+        return self
+
+
 WIDGET_TO_MAPPING.update(
     {cls.TYPE: cls for cls in (TextLineTO, TextBlockTO, AutoCompleteTO, SingleSelectTO, MultiSelectTO, DateSelectTO,
                                FriendSelectTO, SingleSliderTO, RangeSliderTO, GPSLocationTO, PhotoUploadTO,
@@ -348,7 +358,8 @@ WIDGET_TO_MAPPING.update(
 WIDGET_RESULT_TO_MAPPING.update(
     {cls.TYPE: cls for cls in (
         UnicodeWidgetResultTO, UnicodeListWidgetResultTO, LongWidgetResultTO, LongListWidgetResultTO,
-        FloatWidgetResultTO, FloatListWidgetResultTO, LocationWidgetResultTO, AdvancedOrderWidgetResultTO)})
+        FloatWidgetResultTO, FloatListWidgetResultTO, LocationWidgetResultTO, AdvancedOrderWidgetResultTO,
+        SignWidgetResultTO)})
 
 
 class FormTO(object):

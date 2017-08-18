@@ -15,14 +15,14 @@
 #
 # @@license_version:1.3@@
 
-from collections import defaultdict
 import json
 import logging
+from collections import defaultdict
 
-from google.appengine.ext import deferred
-from plugins.rogerthat_api.models.settings import RogerthatSettings
 import webapp2
+from google.appengine.ext import deferred
 
+from plugins.rogerthat_api.models.settings import RogerthatSettings
 
 _callbacks = {}
 _trigger_callbacks = defaultdict(list)

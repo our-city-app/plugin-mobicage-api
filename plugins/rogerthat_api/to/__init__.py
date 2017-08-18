@@ -32,7 +32,7 @@ class UserDetailsTO(object):
     avatar_url = unicode_property('4')
     app_id = unicode_property('5')
     public_key = unicode_property('6')  # Deprecated
-    public_keys = typed_property('7', PublicKeyTO, True, default=[])
+    public_keys = typed_property('7', PublicKeyTO, True, default=[])  # type: list[PublicKeyTO]
 
 
 class BaseMemberTO(object):
