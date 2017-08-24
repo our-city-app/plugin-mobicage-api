@@ -25,5 +25,6 @@ class QRDetailsTO(object):
     sms_uri = unicode_property('3')
     email_uri = unicode_property('4')
 
+
 class QRReturnStatusTO(ReturnStatusTO):
     qr_details = typed_property('51', QRDetailsTO, False)
