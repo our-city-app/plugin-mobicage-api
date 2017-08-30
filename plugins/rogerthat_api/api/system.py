@@ -187,6 +187,16 @@ def put_avatar(api_key, base64_image, json_rpc_id=None):
                    json_rpc_id=json_rpc_id)
 
 
+@returns(long)
+@arguments(api_key=unicode, name=unicode, role_type=unicode, json_rpc_id=unicode)
+def put_role(api_key, name, role_type, json_rpc_id=None):
+    return call_rogerthat(api_key=api_key,
+                          method="system.put_role",
+                          params=dict(name=name,
+                                      role_type=role_type),
+                          json_rpc_id=json_rpc_id)
+
+
 @returns()
 @arguments(api_key=unicode, role_id=(int, long), member=BaseMemberTO, service_identity=unicode, json_rpc_id=unicode)
 def add_role_member(api_key, role_id, member, service_identity=None, json_rpc_id=None):

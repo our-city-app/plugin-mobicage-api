@@ -20,6 +20,7 @@ from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to import MemberTO
 from plugins.rogerthat_api.to.messaging import AnswerTO, AttachmentTO, Message, KeyValueTO, BroadcastResultTO, \
     BroadcastTargetAudienceTO
+from plugins.rogerthat_api.to.messaging.forms import FormTO
 
 
 @returns(unicode)
@@ -48,6 +49,35 @@ def send(api_key, parent_message_key, message, answers, flags, members, branding
                             json_rpc_id=json_rpc_id)
     return result
 
+
+@returns(unicode)
+@arguments(api_key=unicode, parent_message_key=unicode, member=unicode, message=unicode, form=FormTO, flags=int,
+           alert_flags=int, branding=unicode, tag=unicode, service_identity=unicode, context=unicode,
+           attachments=[AttachmentTO], app_id=unicode, broadcast_guid=unicode, step_id=unicode, json_rpc_id=unicode)
+def send_form(api_key, parent_message_key, member, message, form, flags, alert_flags, branding, tag,
+              service_identity=None, context=None, attachments=None, app_id=None, broadcast_guid=None, step_id=None,
+              json_rpc_id=None):
+    if attachments is None:
+        attachments = []
+    result = call_rogerthat(api_key,
+                            method="messaging.send_form",
+                            params=dict(parent_message_key=parent_message_key,
+                                        member=member,
+                                        message=message,
+                                        form=serialize_complex_value(form, FormTO, False, skip_missing=True),
+                                        flags=flags,
+                                        alert_flags=alert_flags,
+                                        branding=branding,
+                                        tag=tag,
+                                        service_identity=service_identity,
+                                        context=context,
+                                        attachments=serialize_complex_value(attachments, AttachmentTO, True,
+                                                                            skip_missing=True),
+                                        app_id=app_id,
+                                        broadcast_guid=broadcast_guid,
+                                        step_id=step_id),
+                            json_rpc_id=json_rpc_id)
+    return result
 
 @returns()
 @arguments(api_key=unicode, parent_message_key=unicode, message_key=unicode, dirty_behavior=int, json_rpc_id=unicode)

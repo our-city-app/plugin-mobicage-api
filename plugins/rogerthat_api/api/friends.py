@@ -15,8 +15,9 @@
 #
 # @@license_version:1.3@@
 
-from mcfw.rpc import returns, arguments, parse_complex_value
+from mcfw.rpc import returns, arguments, parse_complex_value, serialize_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
+from plugins.rogerthat_api.to import BaseMemberTO
 from plugins.rogerthat_api.to.friends import ServiceFriendStatusTO
 
 
@@ -41,3 +42,13 @@ def get_status(api_key, email, app_id, service_identity=None, json_rpc_id=None):
                                         service_identity=service_identity),
                             json_rpc_id=json_rpc_id)
     return parse_complex_value(ServiceFriendStatusTO, friend, False)
+
+
+@returns()
+@arguments(api_key=unicode, members=[BaseMemberTO], service_identities=[unicode], json_rpc_id=unicode)
+def rebuild_synced_roles(api_key, members, service_identities, json_rpc_id=None):
+    call_rogerthat(api_key,
+                   method='friend.rebuild_synced_roles',
+                   params=dict(members=serialize_complex_value(members, BaseMemberTO, True, skip_missing=True),
+                               service_identities=service_identities),
+                   json_rpc_id=json_rpc_id)

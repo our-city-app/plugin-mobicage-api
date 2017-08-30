@@ -111,6 +111,8 @@ class ServiceIdentityDetailsTO(object):
 
 
 class RoleTO(object):
+    TYPE_MANAGED = u'managed'
+    TYPE_SYNCED = u'synced'
     id = long_property('1')
     name = unicode_property('2')
     creation_time = long_property('3')
