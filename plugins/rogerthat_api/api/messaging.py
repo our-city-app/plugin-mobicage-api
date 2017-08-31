@@ -79,6 +79,7 @@ def send_form(api_key, parent_message_key, member, message, form, flags, alert_f
                             json_rpc_id=json_rpc_id)
     return result
 
+
 @returns()
 @arguments(api_key=unicode, parent_message_key=unicode, message_key=unicode, dirty_behavior=int, json_rpc_id=unicode)
 def seal(api_key, parent_message_key, message_key, dirty_behavior=3, json_rpc_id=None):
