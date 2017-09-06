@@ -91,3 +91,9 @@ class FlowStartResultCallbackResultTO(object):
     type = unicode_property('1')  # @ReservedAssignment
     value = typed_property('2', CallbackResultType, False, subtype_attr_name="type",
                            subtype_mapping=CALLBACK_RESULT_TYPE_MAPPING)
+
+
+class SendApiCallCallbackResultTO(object):
+    result = unicode_property('1')
+    error = unicode_property('2')
+    
