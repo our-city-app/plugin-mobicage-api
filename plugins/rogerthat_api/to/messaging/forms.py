@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-
+from framework.to import TO
 from mcfw.properties import float_property, unicode_property, long_property, typed_property, unicode_list_property, \
     bool_property, long_list_property, float_list_property
 from plugins.rogerthat_api.plugin_utils import Enum
@@ -164,7 +164,7 @@ class MyDigiPassTO(Widget):
     scope = unicode_property('51', default=MdpScope.EID_PROFILE)
 
 
-class AdvancedOrderItemTO(object):
+class AdvancedOrderItemTO(TO):
     id = unicode_property('151')
     name = unicode_property('152')
     description = unicode_property('153', default=None)
@@ -178,7 +178,7 @@ class AdvancedOrderItemTO(object):
     has_price = bool_property('161', default=True)
 
 
-class AdvancedOrderCategoryTO(object):
+class AdvancedOrderCategoryTO(TO):
     id = unicode_property('101')
     name = unicode_property('102')
     items = typed_property('103', AdvancedOrderItemTO, True)
@@ -199,7 +199,7 @@ class SignTO(Widget):
     index = unicode_property('55', default=None)
 
 
-class WidgetResult(object):
+class WidgetResult(TO):
     TYPE_UNICODE = u"unicode_result"
     TYPE_UNICODE_LIST = u"unicode_list_result"
     TYPE_LONG = u"long_result"
@@ -276,7 +276,7 @@ class LocationWidgetResultTO(WidgetResult):
         return self
 
 
-class MyDigiPassEidProfile(object):
+class MyDigiPassEidProfile(TO):
     first_name = unicode_property('1')
     first_name_3 = unicode_property('2')
     last_name = unicode_property('3')
@@ -293,13 +293,13 @@ class MyDigiPassEidProfile(object):
     created_at = unicode_property('14')
 
 
-class MyDigiPassEidAddress(object):
+class MyDigiPassEidAddress(TO):
     street_and_number = unicode_property('1')
     zip_code = unicode_property('2')
     municipality = unicode_property('3')
 
 
-class MyDigiPassProfile(object):
+class MyDigiPassProfile(TO):
     updated_at = unicode_property('1')
     first_name = unicode_property('2')
     last_name = unicode_property('3')
@@ -308,7 +308,7 @@ class MyDigiPassProfile(object):
     uuid = unicode_property('6')
 
 
-class MyDigiPassAddress(object):
+class MyDigiPassAddress(TO):
     address_1 = unicode_property('1')
     address_2 = unicode_property('2')
     city = unicode_property('3')
@@ -362,7 +362,7 @@ WIDGET_RESULT_TO_MAPPING.update(
         SignWidgetResultTO)})
 
 
-class FormTO(object):
+class FormTO(TO):
     POSITIVE = u'positive'
     NEGATIVE = u'negative'
     type = unicode_property('1')  # @ReservedAssignment
@@ -388,7 +388,7 @@ class FormMessageTO(BaseMessageTO):
     member = typed_property('52', MemberStatusTO, False)
 
 
-class FormResultTO(object):
+class FormResultTO(TO):
     type = unicode_property('1')  # @ReservedAssignment
     result = typed_property('2', WidgetResult, False, subtype_attr_name="type",
                             subtype_mapping=WIDGET_RESULT_TO_MAPPING)

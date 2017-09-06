@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-
+from framework.to import TO
 from mcfw.properties import unicode_property, typed_property, long_property
 from plugins.rogerthat_api.to.messaging import AnswerTO, AttachmentTO
 from plugins.rogerthat_api.to.messaging.forms import FormTO
@@ -57,43 +57,43 @@ TYPE_MESSAGE = u'message'
 TYPE_FORM = u'form'
 TYPE_FLOW = u'flow'
 TYPE_LOCAL_FLOW = u'local_flow'
-CALLBACK_RESULT_TYPE_MAPPING = dict()
-CALLBACK_RESULT_TYPE_MAPPING[TYPE_MESSAGE] = MessageCallbackResultTypeTO
-CALLBACK_RESULT_TYPE_MAPPING[TYPE_FORM] = FormCallbackResultTypeTO
-CALLBACK_RESULT_TYPE_MAPPING[TYPE_FLOW] = FlowCallbackResultTypeTO
+CALLBACK_RESULT_TYPE_MAPPING = {
+    TYPE_MESSAGE: MessageCallbackResultTypeTO,
+    TYPE_FORM: FormCallbackResultTypeTO,
+    TYPE_FLOW: FlowCallbackResultTypeTO,
+}
 
 
-class PokeCallbackResultTO(object):
+class PokeCallbackResultTO(TO):
     type = unicode_property('1')  # @ReservedAssignment
     value = typed_property('2', CallbackResultType, False, subtype_attr_name="type",
                            subtype_mapping=CALLBACK_RESULT_TYPE_MAPPING)
 
 
-class MessageAcknowledgedCallbackResultTO(object):
+class MessageAcknowledgedCallbackResultTO(TO):
     type = unicode_property('1')  # @ReservedAssignment
     value = typed_property('2', CallbackResultType, False, subtype_attr_name="type",
                            subtype_mapping=CALLBACK_RESULT_TYPE_MAPPING)
 
 
-class FormAcknowledgedCallbackResultTO(object):
+class FormAcknowledgedCallbackResultTO(TO):
     type = unicode_property('1')  # @ReservedAssignment
     value = typed_property('2', CallbackResultType, False, subtype_attr_name="type",
                            subtype_mapping=CALLBACK_RESULT_TYPE_MAPPING)
 
 
-class FlowMemberResultCallbackResultTO(object):
+class FlowMemberResultCallbackResultTO(TO):
     type = unicode_property('1')  # @ReservedAssignment
     value = typed_property('2', CallbackResultType, False, subtype_attr_name="type",
                            subtype_mapping=CALLBACK_RESULT_TYPE_MAPPING)
 
 
-class FlowStartResultCallbackResultTO(object):
+class FlowStartResultCallbackResultTO(TO):
     type = unicode_property('1')  # @ReservedAssignment
     value = typed_property('2', CallbackResultType, False, subtype_attr_name="type",
                            subtype_mapping=CALLBACK_RESULT_TYPE_MAPPING)
 
 
-class SendApiCallCallbackResultTO(object):
+class SendApiCallCallbackResultTO(TO):
     result = unicode_property('1')
     error = unicode_property('2')
-    

@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-
+from framework.to import TO
 from mcfw.properties import unicode_property, long_property, typed_property
 from plugins.rogerthat_api.to.messaging.forms import FormResultTO, FormTO
 
 
-class BaseFlowStepTO(object):
+class BaseFlowStepTO(TO):
     TYPE_MESSAGE = "message_step"
     TYPE_FORM = "form_step"
 
