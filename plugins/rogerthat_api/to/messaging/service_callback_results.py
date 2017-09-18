@@ -20,7 +20,7 @@ from plugins.rogerthat_api.to.messaging import AnswerTO, AttachmentTO
 from plugins.rogerthat_api.to.messaging.forms import FormTO
 
 
-class CallbackResultType(object):
+class CallbackResultType(TO):
     pass
 
 

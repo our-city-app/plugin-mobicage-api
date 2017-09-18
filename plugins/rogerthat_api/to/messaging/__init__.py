@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-
+from framework.to import TO
 from mcfw.properties import unicode_property, long_property, bool_property, typed_property
 from plugins.rogerthat_api.plugin_utils import Enum
 
 
-class Message(object):
+class Message(TO):
     TYPE = 1
     TYPE_FORM_MESSAGE = 2
 
@@ -95,14 +95,15 @@ class ChatFlags(Enum):
         return cls._MESSAGE_FLAG_MAPPING[chat_flag]
 
 
-class ButtonTO(object):
+class ButtonTO(TO):
     id = unicode_property('1')  # @ReservedAssignment
     caption = unicode_property('2')
     action = unicode_property('3')
     ui_flags = long_property('4', default=0)
+    color = unicode_property('5', default=None)
 
 
-class AttachmentTO(object):
+class AttachmentTO(TO):
     CONTENT_TYPE_IMG_PNG = u"image/png"
     CONTENT_TYPE_IMG_JPG = u"image/jpeg"
     CONTENT_TYPE_PDF = u"application/pdf"
@@ -139,18 +140,18 @@ class KeyValueTO(object):
         return to
 
 
-class BroadcastResultTO(object):
+class BroadcastResultTO(TO):
     statistics_key = unicode_property('1')
 
 
-class BroadcastTargetAudienceTO(object):
+class BroadcastTargetAudienceTO(TO):
     min_age = long_property('0')
     max_age = long_property('1')
     gender = unicode_property('2')
     app_id = unicode_property('3')
 
 
-class BaseMessageTO(object):
+class BaseMessageTO(TO):
     key = unicode_property('1')
     parent_key = unicode_property('2')
     sender = unicode_property('3')
@@ -178,7 +179,7 @@ class BaseMessageTO(object):
         self.parent_key = None
 
 
-class MemberStatusTO(object):
+class MemberStatusTO(TO):
     member = unicode_property('1')
     status = long_property('2')
     received_timestamp = long_property('3')
