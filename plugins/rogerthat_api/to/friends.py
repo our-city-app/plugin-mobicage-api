@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-
+from framework.to import TO
 from mcfw.properties import unicode_property, unicode_list_property, long_list_property, typed_property, \
     bool_property, long_property
 
@@ -28,19 +28,19 @@ REGISTRATION_ORIGIN_QR = u'qr'
 REGISTRATION_ORIGIN_OAUTH = u'oauth'
 
 
-class RegistrationResultRolesTO(object):
+class RegistrationResultRolesTO(TO):
     service = unicode_property('1')  # service@example.com
     identity = unicode_property('2')  # '+default+'
     ids = long_list_property('3')  # type: (list of long): role ids
 
 
-class RegistrationResultTO(object):
+class RegistrationResultTO(TO):
     result = unicode_property('1')
     auto_connected_services = unicode_list_property('2')
     roles = typed_property('3', RegistrationResultRolesTO, True)
 
 
-class ServiceFriendTO(object):
+class ServiceFriendTO(TO):
     email = unicode_property('1')
     name = unicode_property('2')
     avatar = unicode_property('3')

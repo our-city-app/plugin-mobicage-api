@@ -14,8 +14,9 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
+from framework.to import TO
 from mcfw.properties import unicode_property
 
 
-class RogerthatApiPluginConfiguration(object):
+class RogerthatApiPluginConfiguration(TO):
     rogerthat_server_url = unicode_property('rogerthat_server_url')

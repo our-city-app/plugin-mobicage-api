@@ -14,18 +14,18 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-
+from framework.to import TO
 from mcfw.properties import unicode_property, long_property, typed_property, bool_property
 
 
-class PublicKeyTO(object):
+class PublicKeyTO(TO):
     algorithm = unicode_property('1', default=None)
     name = unicode_property('2', default=None)
     index = unicode_property('3', default=None)
     public_key = unicode_property('4', default=None)  # base64
 
 
-class UserDetailsTO(object):
+class UserDetailsTO(TO):
     email = unicode_property('1')
     name = unicode_property('2')
     language = unicode_property('3')
@@ -35,7 +35,7 @@ class UserDetailsTO(object):
     public_keys = typed_property('7', PublicKeyTO, True, default=[])  # type: list[PublicKeyTO]
 
 
-class BaseMemberTO(object):
+class BaseMemberTO(TO):
     member = unicode_property('1')
     app_id = unicode_property('2')
 
@@ -44,7 +44,7 @@ class MemberTO(BaseMemberTO):
     alert_flags = long_property('3')
 
 
-class ReturnStatusTO(object):
+class ReturnStatusTO(TO):
     success = bool_property('1')
     errormsg = unicode_property('2')
 

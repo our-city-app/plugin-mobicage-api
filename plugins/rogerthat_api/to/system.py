@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-
+from framework.to import TO
 from mcfw.properties import long_list_property, unicode_property, bool_property, long_property, \
     unicode_list_property, typed_property
 
 
-class BaseServiceMenuItemTO(object):
+class BaseServiceMenuItemTO(TO):
     coords = long_list_property('1')
     label = unicode_property('2')
     iconHash = unicode_property('3')
@@ -43,7 +43,7 @@ class ServicePanelMenuItemTO(ServiceMenuItemTO):
     roles = long_list_property('56')
 
 
-class UpdatedBrandingTO(object):
+class UpdatedBrandingTO(TO):
     REASON_NEW_TRANSLATIONS = u'new_translations'
     old_id = unicode_property('1')
     new_id = unicode_property('2')
@@ -60,26 +60,26 @@ class UpdatedBrandingTO(object):
         return [cls.create(*i) for i in d.iteritems()]
 
 
-class ProfileLocationTO(object):
+class ProfileLocationTO(TO):
     address = unicode_property('1')
     lat = long_property('2')
     lon = long_property('3')
 
 
-class SearchConfigTO(object):
+class SearchConfigTO(TO):
     enabled = bool_property('1')
     keywords = unicode_property('2')
     locations = typed_property('3', ProfileLocationTO, True)
 
 
-class BeaconTO(object):
+class BeaconTO(TO):
     uuid = unicode_property('1')
     major = long_property('2')
     minor = long_property('3')
     tag = unicode_property('4', default=None)
 
 
-class ServiceIdentityDetailsTO(object):
+class ServiceIdentityDetailsTO(TO):
     created = long_property('1')
     identifier = unicode_property('2')
     name = unicode_property('3')
@@ -110,7 +110,7 @@ class ServiceIdentityDetailsTO(object):
     content_branding_hash = unicode_property('124')
 
 
-class RoleTO(object):
+class RoleTO(TO):
     TYPE_MANAGED = u'managed'
     TYPE_SYNCED = u'synced'
     id = long_property('1')

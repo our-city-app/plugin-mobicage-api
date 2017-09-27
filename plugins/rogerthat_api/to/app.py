@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-
+from framework.to import TO
 from mcfw.consts import MISSING
 from mcfw.properties import bool_property, long_list_property
 
 
-class AppSettingsTO(object):
+class AppSettingsTO(TO):
     wifi_only_downloads = bool_property('1')
     background_fetch_timestamps = long_list_property('2')
 

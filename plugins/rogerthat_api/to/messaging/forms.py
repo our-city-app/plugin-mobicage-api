@@ -22,11 +22,11 @@ from plugins.rogerthat_api.to import PublicKeyTO
 from plugins.rogerthat_api.to.messaging import MemberStatusTO, BaseMessageTO
 
 # these dicts are populated at the bottom of this file
-WIDGET_TO_MAPPING = dict()
-WIDGET_RESULT_TO_MAPPING = dict()
+WIDGET_TO_MAPPING = {}
+WIDGET_RESULT_TO_MAPPING = {}
 
 
-class Widget(object):
+class Widget(TO):
     TYPE_TEXT_LINE = u"text_line"
     TYPE_TEXT_BLOCK = u"text_block"
     TYPE_AUTO_COMPLETE = u"auto_complete"
@@ -43,13 +43,9 @@ class Widget(object):
     TYPE_SIGN = u"sign"
 
 
-class ChoiceTO(object):
+class ChoiceTO(TO):
     label = unicode_property('1')
     value = unicode_property('2')
-
-    def __init__(self, label=None, value=None):
-        self.label = label
-        self.value = value
 
     def __str__(self):
         return "{label: %s, value: %s}" % (self.label, self.value)

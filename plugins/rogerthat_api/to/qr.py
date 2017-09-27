@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-
+from framework.to import TO
 from mcfw.properties import unicode_property, typed_property
 from plugins.rogerthat_api.to import ReturnStatusTO
 
 
-class QRDetailsTO(object):
+class QRDetailsTO(TO):
     image_uri = unicode_property('1')
     content_uri = unicode_property('2')
     sms_uri = unicode_property('3')
