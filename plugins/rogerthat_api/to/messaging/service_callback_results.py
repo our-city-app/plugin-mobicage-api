@@ -51,6 +51,7 @@ class FlowCallbackResultTypeTO(CallbackResultType):
     flow = unicode_property('1')  # flow name or key or XML
     tag = unicode_property('2', default=None)
     force_language = unicode_property('3', default=None)
+    flow_params = unicode_property('4', default=None)
 
 
 TYPE_MESSAGE = u'message'

@@ -104,24 +104,24 @@ def delete_conversation(api_key, parent_message_key, members, json_rpc_id=None):
 @returns(unicode)
 @arguments(api_key=unicode, xml=unicode, members=[MemberTO], service_identity=unicode, tag=unicode,
            parent_message_key=unicode, context=unicode, force_language=unicode, download_attachments_upfront=bool,
-           push_message=unicode, flow=unicode, json_rpc_id=unicode)
+           push_message=unicode, flow=unicode, flow_params=unicode, json_rpc_id=unicode)
 def start_local_flow(api_key, xml, members, service_identity=None, tag=None, parent_message_key=None, context=None,
                      force_language=None, download_attachments_upfront=False, push_message=None, flow=None,
-                     json_rpc_id=None):
-    result = call_rogerthat(api_key,
-                            method="messaging.start_local_flow",
-                            params=dict(xml=xml,
-                                        members=serialize_complex_value(members, MemberTO, True),
-                                        service_identity=service_identity,
-                                        tag=tag,
-                                        parent_message_key=parent_message_key,
-                                        context=context,
-                                        force_language=force_language,
-                                        download_attachments_upfront=download_attachments_upfront,
-                                        push_message=push_message,
-                                        flow=flow),
-                            json_rpc_id=json_rpc_id)
-    return result
+                     flow_params=None, json_rpc_id=None):
+    return call_rogerthat(api_key,
+                          method="messaging.start_local_flow",
+                          params=dict(xml=xml,
+                                      members=serialize_complex_value(members, MemberTO, True),
+                                      service_identity=service_identity,
+                                      tag=tag,
+                                      parent_message_key=parent_message_key,
+                                      context=context,
+                                      force_language=force_language,
+                                      download_attachments_upfront=download_attachments_upfront,
+                                      push_message=push_message,
+                                      flow=flow,
+                                      flow_params=flow_params),
+                          json_rpc_id=json_rpc_id)
 
 
 @returns(unicode)
