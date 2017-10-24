@@ -31,13 +31,19 @@ REGISTRATION_ORIGIN_OAUTH = u'oauth'
 class RegistrationResultRolesTO(TO):
     service = unicode_property('1')  # service@example.com
     identity = unicode_property('2')  # '+default+'
-    ids = long_list_property('3')  # type: (list of long): role ids
+    ids = long_list_property('3')  # type: list[long]
+
+
+class RegistrationUserInfoTO(TO):
+    name = unicode_property('name')
+    avatar = unicode_property('avatar')  # base64 encoded
 
 
 class RegistrationResultTO(TO):
     result = unicode_property('1')
     auto_connected_services = unicode_list_property('2')
     roles = typed_property('3', RegistrationResultRolesTO, True)
+    user_details = typed_property('4', RegistrationUserInfoTO, False)  # type: RegistrationUserInfoTO
 
 
 class ServiceFriendTO(TO):
