@@ -35,7 +35,7 @@ class RogerthatApiException(BusinessException):
         Exception.__init__(self, message)
 
 
-class RogerthatApiStatusCodeException(BusinessException):
+class RogerthatApiStatusCodeException(Exception):
     def __init__(self, status_code):
         self.status_code = status_code
         Exception.__init__(self, 'Outgoing Rogerthat API call returned status code %s' % status_code)
