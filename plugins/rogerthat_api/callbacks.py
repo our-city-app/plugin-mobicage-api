@@ -43,7 +43,7 @@ def process_callback(request, rt_settings):
     method = request['method']
     id_ = request['id']
     response['id'] = id_
-    logging.info('Incoming Rogerthat callback:\n%s', request)
+    logging.debug('Incoming Rogerthat callback:\n%s', request)
 
     params = dict()
     for p, v in request['params'].iteritems():

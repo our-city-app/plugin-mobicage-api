@@ -41,6 +41,13 @@ class RogerthatApiStatusCodeException(Exception):
         Exception.__init__(self, 'Outgoing Rogerthat API call returned status code %s' % status_code)
 
 
+class RogerthatApiUnknownException(Exception):
+    def __init__(self, error):
+        self.fields = error
+        self.code = self.fields['code']
+        super(RogerthatApiUnknownException, self).__init__(error['message'])
+
+
 def call_rogerthat(api_key, method, params, json_rpc_id=None):
     azzert(api_key, 'No API_KEY provided')
 
@@ -64,6 +71,9 @@ def call_rogerthat(api_key, method, params, json_rpc_id=None):
 
     error = response['error']
     if error:
-        raise RogerthatApiException(error)
+        if error['code'] != 1000:
+            raise RogerthatApiException(error)
+        else:
+            raise RogerthatApiUnknownException(error)  # Unknown error (e.g. datastore timeout / transaction collision)
 
     return response['result']

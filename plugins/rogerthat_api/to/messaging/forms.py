@@ -47,11 +47,6 @@ class ChoiceTO(TO):
     label = unicode_property('1')
     value = unicode_property('2')
 
-    def __str__(self):
-        return "{label: %s, value: %s}" % (self.label, self.value)
-
-    __repr__ = __str__
-
 
 class TextWidget(Widget):
     value = unicode_property('51')
@@ -423,12 +418,15 @@ class FriendSelectFormMessageTO(FormMessageTO):
 
 
 class SingleSelectFormTO(FormTO):
-    widget = typed_property('2', SingleSelectTO, False)
+    widget = typed_property('2', SingleSelectTO, False)  # type: SingleSelectTO
 
 
 class SingleSelectFormMessageTO(FormMessageTO):
+    """
+    Args:
+        form(SingleSelectFormTO)
+    """
     form = typed_property('51', SingleSelectFormTO, False)
-
 
 class MultiSelectFormTO(FormTO):
     widget = typed_property('2', MultiSelectTO, False)

@@ -45,7 +45,7 @@ class MessageFlowStepTO(BaseFlowStepTO):
 
 class FormFlowStepTO(BaseFlowStepTO):
     TYPE = BaseFlowStepTO.TYPE_FORM
-    form_result = typed_property('51', FormResultTO)
+    form_result = typed_property('51', FormResultTO)  # type: FormResultTO
     display_value = unicode_property('52')
     form_type = unicode_property('53')
 
