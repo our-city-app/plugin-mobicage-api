@@ -25,27 +25,29 @@ from plugins.rogerthat_api.to.messaging.forms import FormTO
 
 @returns(unicode)
 @arguments(api_key=unicode, parent_message_key=unicode, message=unicode, answers=[AnswerTO], flags=int,
-           members=[MemberTO],
-           branding=unicode, tag=unicode, alert_flags=int, dismiss_button_ui_flags=int, context=unicode,
-           attachments=[AttachmentTO], json_rpc_id=unicode)
+           members=[MemberTO], branding=unicode, tag=unicode, alert_flags=int, dismiss_button_ui_flags=int,
+           context=unicode, attachments=[AttachmentTO], broadcast_guid=unicode, step_id=unicode, json_rpc_id=unicode)
 def send(api_key, parent_message_key, message, answers, flags, members, branding, tag,
-         alert_flags=Message.ALERT_FLAG_VIBRATE,
-         dismiss_button_ui_flags=0, context=None, attachments=None, json_rpc_id=None):
+         alert_flags=Message.ALERT_FLAG_VIBRATE, dismiss_button_ui_flags=0, context=None, attachments=None,
+         broadcast_guid=None, step_id=None, json_rpc_id=None):
     if attachments is None:
         attachments = []
     result = call_rogerthat(api_key,
                             method="messaging.send",
                             params=dict(parent_message_key=parent_message_key,
                                         message=message,
-                                        answers=serialize_complex_value(answers, AnswerTO, True),
+                                        answers=serialize_complex_value(answers, AnswerTO, True, skip_missing=True),
                                         flags=flags,
-                                        members=serialize_complex_value(members, MemberTO, True),
+                                        members=serialize_complex_value(members, MemberTO, True, skip_missing=True),
                                         branding=branding,
                                         tag=tag,
                                         alert_flags=alert_flags,
                                         dismiss_button_ui_flags=dismiss_button_ui_flags,
                                         context=context,
-                                        attachments=serialize_complex_value(attachments, AttachmentTO, True)),
+                                        attachments=serialize_complex_value(attachments, AttachmentTO, True,
+                                                                            skip_missing=True),
+                                        broadcast_guid=broadcast_guid,
+                                        step_id=step_id),
                             json_rpc_id=json_rpc_id)
     return result
 
@@ -97,7 +99,7 @@ def delete_conversation(api_key, parent_message_key, members, json_rpc_id=None):
     call_rogerthat(api_key,
                    method="messaging.delete_conversation",
                    params=dict(parent_message_key=parent_message_key,
-                               members=serialize_complex_value(members, MemberTO, True)),
+                               members=serialize_complex_value(members, MemberTO, True, skip_missing=True)),
                    json_rpc_id=json_rpc_id)
 
 
@@ -111,7 +113,7 @@ def start_local_flow(api_key, xml, members, service_identity=None, tag=None, par
     return call_rogerthat(api_key,
                           method="messaging.start_local_flow",
                           params=dict(xml=xml,
-                                      members=serialize_complex_value(members, MemberTO, True),
+                                      members=serialize_complex_value(members, MemberTO, True, skip_missing=True),
                                       service_identity=service_identity,
                                       tag=tag,
                                       parent_message_key=parent_message_key,
@@ -137,16 +139,16 @@ def start_chat(api_key, members, topic, description, alert_flags=Message.ALERT_F
         reader_members = list()
     if metadata is None:
         metadata = list()
-    params = dict(members=serialize_complex_value(members, MemberTO, True),
+    params = dict(members=serialize_complex_value(members, MemberTO, True, skip_missing=True),
                   topic=topic,
                   description=description,
                   alert_flags=alert_flags,
                   service_identity=service_identity,
                   tag=tag,
                   context=context,
-                  reader_members=serialize_complex_value(reader_members, MemberTO, True),
+                  reader_members=serialize_complex_value(reader_members, MemberTO, True, skip_missing=True),
                   flags=flags,
-                  metadata=serialize_complex_value(metadata, KeyValueTO, True),
+                  metadata=serialize_complex_value(metadata, KeyValueTO, True, skip_missing=True),
                   avatar=avatar,
                   background_color=background_color,
                   text_color=text_color,
@@ -169,7 +171,7 @@ def update_chat(api_key, parent_message_key, topic=None, description=None, flags
     if flags:
         params['flags'] = flags
     if metadata:
-        params['metadata'] = serialize_complex_value(metadata, KeyValueTO, True)
+        params['metadata'] = serialize_complex_value(metadata, KeyValueTO, True, skip_missing=True)
     if avatar:
         params['avatar'] = avatar
     if background_color:
@@ -198,8 +200,8 @@ def add_chat_members(api_key, parent_message_key, members=None, reader_members=N
     if members is None:
         members = []
     params = dict(parent_message_key=parent_message_key,
-                  members=serialize_complex_value(members, MemberTO, True),
-                  reader_members=serialize_complex_value(reader_members, MemberTO, True))
+                  members=serialize_complex_value(members, MemberTO, True, skip_missing=True),
+                  reader_members=serialize_complex_value(reader_members, MemberTO, True, skip_missing=True))
     return call_rogerthat(api_key, method, params, json_rpc_id)
 
 
@@ -208,7 +210,7 @@ def add_chat_members(api_key, parent_message_key, members=None, reader_members=N
 def update_chat_members(api_key, parent_message_key, members, status, json_rpc_id=None):
     method = 'messaging.update_chat_members'
     params = dict(parent_message_key=parent_message_key,
-                  members=serialize_complex_value(members, MemberTO, True),
+                  members=serialize_complex_value(members, MemberTO, True, skip_missing=True),
                   status=status)
     return call_rogerthat(api_key, method, params, json_rpc_id)
 
@@ -220,7 +222,7 @@ def delete_chat_members(api_key, parent_message_key, members=None, soft=False, j
     if members is None:
         members = []
     params = dict(parent_message_key=parent_message_key,
-                  members=serialize_complex_value(members, MemberTO, True),
+                  members=serialize_complex_value(members, MemberTO, True, skip_missing=True),
                   soft=soft)
     return call_rogerthat(api_key, method, params, json_rpc_id)
 
@@ -238,15 +240,15 @@ def broadcast(api_key, broadcast_type, message, answers, flags, branding, tag, s
     params = dict(
         broadcast_type=broadcast_type,
         message=message,
-        answers=serialize_complex_value(answers, AnswerTO, True),
+        answers=serialize_complex_value(answers, AnswerTO, True, skip_missing=True),
         flags=flags,
         branding=branding,
         tag=tag,
         service_identity=service_identity,
         alert_flags=alert_flags,
         dismiss_button_ui_flags=dismiss_button_ui_flags,
-        target_audience=serialize_complex_value(target_audience, BroadcastTargetAudienceTO, False),
-        attachments=serialize_complex_value(attachments, AttachmentTO, True),
+        target_audience=serialize_complex_value(target_audience, BroadcastTargetAudienceTO, False, skip_missing=True),
+        attachments=serialize_complex_value(attachments, AttachmentTO, True, skip_missing=True),
         timeout=timeout
     )
     result = call_rogerthat(api_key, method, params, json_rpc_id)
@@ -269,8 +271,8 @@ def send_chat_message(api_key, parent_key, message, answers=None, attachments=No
     params = dict(
         parent_key=parent_key,
         message=message,
-        answers=serialize_complex_value(answers, AnswerTO, True),
-        attachments=serialize_complex_value(attachments, AttachmentTO, True),
+        answers=serialize_complex_value(answers, AnswerTO, True, skip_missing=True),
+        attachments=serialize_complex_value(attachments, AttachmentTO, True, skip_missing=True),
         sender=sender,
         priority=priority,
         sticky=sticky,

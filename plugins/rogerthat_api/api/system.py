@@ -203,7 +203,7 @@ def add_role_member(api_key, role_id, member, service_identity=None, json_rpc_id
     call_rogerthat(api_key=api_key,
                    method="system.add_role_member",
                    params=dict(role_id=role_id,
-                               member=serialize_complex_value(member, BaseMemberTO, False),
+                               member=serialize_complex_value(member, BaseMemberTO, False, skip_missing=True),
                                service_identity=service_identity),
                    json_rpc_id=json_rpc_id)
 
@@ -214,7 +214,7 @@ def delete_role_member(api_key, role_id, member, service_identity=None, json_rpc
     call_rogerthat(api_key=api_key,
                    method="system.delete_role_member",
                    params=dict(role_id=role_id,
-                               member=serialize_complex_value(member, BaseMemberTO, False),
+                               member=serialize_complex_value(member, BaseMemberTO, False, skip_missing=True),
                                service_identity=service_identity),
                    json_rpc_id=json_rpc_id)
 
