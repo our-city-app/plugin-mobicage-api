@@ -40,6 +40,21 @@ class BaseMemberTO(TO):
     app_id = unicode_property('2')
 
 
+class BaseButtonTO(TO):
+    id = unicode_property('id')
+    caption = unicode_property('caption')
+    action = unicode_property('action')
+
+
+class KeyValueLongTO(TO):
+    key = unicode_property('1')
+    value = long_property('2')
+
+    def __init__(self, key=None, value=0):
+        self.key = key
+        self.value = value
+
+
 class MemberTO(BaseMemberTO):
     alert_flags = long_property('3')
 
@@ -54,3 +69,6 @@ class ReturnStatusTO(TO):
         r.success = success
         r.errormsg = unicode(errormsg) if errormsg else None
         return r
+
+
+RETURNSTATUS_TO_SUCCESS = ReturnStatusTO.create()
