@@ -17,6 +17,7 @@
 from framework.to import TO
 from mcfw.properties import unicode_property, long_property, bool_property, typed_property
 from plugins.rogerthat_api.plugin_utils import Enum
+from plugins.rogerthat_api.to import UserDetailsTO
 
 
 class Message(TO):
@@ -193,3 +194,23 @@ class MessageTO(BaseMessageTO):
     timeout = long_property('52')
     buttons = typed_property('53', ButtonTO, True)
     dismiss_button_ui_flags = long_property('54', default=0)
+
+
+class ChatMessageTO(object):
+    sender = typed_property('1', UserDetailsTO)
+    parent_message_key = unicode_property('2')
+    message_key = unicode_property('3')
+    message = unicode_property('4')
+    timestamp = long_property('5')
+
+
+class ChatMessageListResultTO(object):
+    cursor = unicode_property('1')
+    messages = typed_property('2', ChatMessageTO, True)
+
+
+class PokeInformationTO(object):
+    description = unicode_property('1')
+    tag = unicode_property('2')
+    timestamp = long_property('3')
+    total_scan_count = long_property('4')

@@ -14,9 +14,20 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
+
 from framework.to import TO
 from mcfw.properties import long_list_property, unicode_property, bool_property, long_property, \
     unicode_list_property, typed_property
+
+
+class ServiceIdentityInfoTO(TO):
+    name = unicode_property('1')
+    email = unicode_property('2')
+    avatar = unicode_property('3')
+    admin_emails = unicode_list_property('4')
+    description = unicode_property('5')
+    app_ids = unicode_list_property('6')
+    app_names = unicode_list_property('7')
 
 
 class BaseServiceMenuItemTO(TO):
@@ -117,3 +128,86 @@ class RoleTO(TO):
     name = unicode_property('2')
     creation_time = long_property('3')
     type = unicode_property('4')
+
+
+class ServiceMenuDetailItemTO(BaseServiceMenuItemTO):
+    tag = unicode_property('51', default=None)
+
+
+class BaseServiceMenuTO(TO):
+    aboutLabel = unicode_property('2')
+    messagesLabel = unicode_property('3')
+    shareLabel = unicode_property('4')
+    callLabel = unicode_property('5')
+    callConfirmation = unicode_property('6')
+
+
+class ServiceMenuDetailTO(BaseServiceMenuTO):
+    items = typed_property('51', ServiceMenuDetailItemTO, True)  # type: list[ServiceMenuDetailItemTO]
+
+
+class LanguagesTO(TO):
+    default_language = unicode_property('1')
+    supported_languages = unicode_list_property('2')
+
+
+class DayStatisticsTO(TO):
+    day = long_property('1')
+    month = long_property('2')
+    year = long_property('3')
+    count = long_property('4')
+
+
+class MenuItemPressTO(TO):
+    name = unicode_property('1')
+    data = typed_property('2', DayStatisticsTO, True)
+
+
+class ServiceIdentityStatisticsTO(TO):
+    number_of_users = long_property('1')
+    users_gained = typed_property('2', DayStatisticsTO, True)
+    users_lost = typed_property('3', DayStatisticsTO, True)
+    menu_item_press = typed_property('4', MenuItemPressTO, True)
+
+
+class FlowStepButtonStatisticsTO(object):
+    button_id = unicode_property('1')
+    acked_count = typed_property('2', DayStatisticsTO, True)
+
+    def get_step(self, step_id):
+        for step in self.steps:
+            if step.step_id == step_id:
+                return step
+        return None
+
+
+class FlowStepStatisticsTO(object):
+    step_id = unicode_property('1')
+    buttons = typed_property('2', FlowStepButtonStatisticsTO, True)
+    sent_count = typed_property('3', DayStatisticsTO, True)
+    received_count = typed_property('4', DayStatisticsTO, True)
+    read_count = typed_property('5', DayStatisticsTO, True)
+
+    def get_button(self, btn_id):
+        for button in self.buttons:
+            if button.button_id == btn_id:
+                return button
+        return None
+
+
+class FlowStatisticsTO(TO):
+    tag = unicode_property('1')
+    flows = typed_property('2', FlowStepStatisticsTO, True, doc='Hierarchical view of steps')
+    steps = typed_property('3', FlowStepStatisticsTO, True,
+                           doc='Flat view of steps, containing the total sent/received/read/acked counts per day')
+
+    def get_step(self, step_id):
+        for step in self.steps:
+            if step.step_id == step_id:
+                return step
+        return None
+
+
+class FlowStatisticsListResultTO(TO):
+    flow_statistics = typed_property('1', FlowStatisticsTO, True)
+    cursor = unicode_property('2')

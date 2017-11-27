@@ -14,9 +14,18 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
+
 from framework.to import TO
 from mcfw.consts import MISSING
-from mcfw.properties import bool_property, long_list_property
+from mcfw.properties import bool_property, long_list_property, unicode_property, \
+    long_property
+
+
+class AppInfoTO(TO):
+    id = unicode_property('1')
+    name = unicode_property('2')
+    ios_appstore_url = unicode_property('3')
+    android_playstore_url = unicode_property('4')
 
 
 class AppSettingsTO(TO):
@@ -28,3 +37,14 @@ class AppSettingsTO(TO):
             self.wifi_only_downloads = wifi_only_downloads
         if background_fetch_timestamps is not MISSING:
             self.background_fetch_timestamps = background_fetch_timestamps
+
+
+class PutLoyaltyUserResultTO(TO):
+    url = unicode_property('1')
+    email = unicode_property('2')
+    app_id = unicode_property('3')
+
+
+class AppServiceStatisticsTO(TO):
+    app_id = unicode_property('1')
+    total_user_count = long_property('2')

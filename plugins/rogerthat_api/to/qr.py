@@ -14,8 +14,9 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
+
 from framework.to import TO
-from mcfw.properties import unicode_property, typed_property
+from mcfw.properties import unicode_property, typed_property, long_property
 from plugins.rogerthat_api.to import ReturnStatusTO
 
 
@@ -28,3 +29,15 @@ class QRDetailsTO(TO):
 
 class QRReturnStatusTO(ReturnStatusTO):
     qr_details = typed_property('51', QRDetailsTO, False)
+
+
+class QRTemplateTO(TO):
+    id = unicode_property('1')
+    description = unicode_property('2')
+    color = unicode_property('3')
+    timestamp = long_property('4')
+
+
+class QRTemplateListResultTO(TO):
+    cursor = unicode_property('1')
+    templates = typed_property('2', QRTemplateTO, True)

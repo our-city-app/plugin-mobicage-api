@@ -19,7 +19,7 @@ from mcfw.rpc import returns, arguments, serialize_complex_value, parse_complex_
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to import MemberTO
 from plugins.rogerthat_api.to.messaging import AnswerTO, AttachmentTO, Message, KeyValueTO, BroadcastResultTO, \
-    BroadcastTargetAudienceTO
+    BroadcastTargetAudienceTO, ChatMessageListResultTO, PokeInformationTO
 from plugins.rogerthat_api.to.messaging.forms import FormTO
 
 
@@ -80,6 +80,15 @@ def send_form(api_key, parent_message_key, member, message, form, flags, alert_f
                                         step_id=step_id),
                             json_rpc_id=json_rpc_id)
     return result
+
+
+@returns(PokeInformationTO)
+@arguments(api_key=unicode, url=unicode, json_rpc_id=unicode)
+def poke_information(api_key, url, json_rpc_id=None):
+    method = 'messaging.poke_information'
+    params = dict(url=url)
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(PokeInformationTO, result, False)
 
 
 @returns()
@@ -225,6 +234,17 @@ def delete_chat_members(api_key, parent_message_key, members=None, soft=False, j
                   members=serialize_complex_value(members, MemberTO, True, skip_missing=True),
                   soft=soft)
     return call_rogerthat(api_key, method, params, json_rpc_id)
+
+
+@returns(ChatMessageListResultTO)
+@arguments(api_key=unicode, parent_message_key=unicode, cursor=unicode, json_rpc_id=unicode)
+def list_chat_messages(api_key, parent_message_key, cursor=None, json_rpc_id=None):
+    method = 'messaging.list_chat_messages'
+    params = dict(parent_message_key=parent_message_key)
+    if cursor:
+        params["cursor"] = cursor
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(ChatMessageListResultTO, result, False)
 
 
 @returns(BroadcastResultTO)

@@ -20,7 +20,20 @@ import json
 from mcfw.rpc import returns, arguments, parse_complex_value, serialize_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to import BaseMemberTO
-from plugins.rogerthat_api.to.system import ServiceIdentityDetailsTO, RoleTO
+from plugins.rogerthat_api.to.system import ServiceIdentityDetailsTO, RoleTO, \
+    ServiceMenuDetailTO, ServiceIdentityInfoTO, LanguagesTO, \
+    ServiceIdentityStatisticsTO, FlowStatisticsListResultTO
+
+
+@returns(ServiceIdentityInfoTO)
+@arguments(api_key=unicode, service_identity=unicode, json_rpc_id=unicode)
+def get_info(api_key, service_identity=None, json_rpc_id=None):
+    method = 'system.get_info'
+    params = dict()
+    if service_identity:
+        params["service_identity"] = service_identity
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(ServiceIdentityInfoTO, result, False)
 
 
 @returns(dict)
@@ -82,6 +95,26 @@ def put_identity(api_key, description_branding=None, menu_branding=None, app_dat
 
 
 @returns()
+@arguments(api_key=unicode, broadcast_types=[unicode], force=bool, json_rpc_id=unicode)
+def put_broadcast_types(api_key, broadcast_types, force=False, json_rpc_id=None):
+    method = 'system.put_broadcast_types'
+    params = dict(broadcast_types=broadcast_types,
+                  force=force)
+    call_rogerthat(api_key, method, params, json_rpc_id)
+
+
+@returns(dict)
+@arguments(api_key=unicode, json_rpc_id=unicode)
+def get_menu_item(api_key, json_rpc_id=None):
+    result = call_rogerthat(api_key,
+                            method="system.get_menu_item",
+                            params=dict(),
+                            json_rpc_id=json_rpc_id)
+
+    return result
+
+
+@returns()
 @arguments(api_key=unicode, icon_name=unicode, tag=unicode, coords=[int], icon_color=unicode, label=unicode,
            screen_branding=unicode, static_flow=unicode, json_rpc_id=unicode)
 def put_menu_item(api_key, icon_name, tag, coords, icon_color, label, screen_branding=None, static_flow=None,
@@ -98,11 +131,48 @@ def put_menu_item(api_key, icon_name, tag, coords, icon_color, label, screen_bra
                    json_rpc_id=json_rpc_id)
 
 
+@returns(bool)
+@arguments(api_key=unicode, coords=[int], json_rpc_id=unicode)
+def delete_menu_item(api_key, coords, json_rpc_id=None):
+    method = 'system.delete_menu_item'
+    params = dict(coords=coords)
+    return call_rogerthat(api_key, method, params, json_rpc_id)
+
+
+@returns(ServiceMenuDetailTO)
+@arguments(api_key=unicode, json_rpc_id=unicode)
+def get_menu(api_key, json_rpc_id=None):
+    method = 'system.get_menu'
+    params = dict()
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(ServiceMenuDetailTO, result, False)
+
+
+@returns()
+@arguments(api_key=unicode, column=int, label=unicode, json_rpc_id=unicode)
+def put_reserved_menu_item_label(api_key, column, label, json_rpc_id=None):
+    method = 'system.put_reserved_menu_item_label'
+    params = dict(column=column,
+                  label=label)
+    call_rogerthat(api_key, method, params, json_rpc_id)
+
+
 @returns(unicode)
 @arguments(api_key=unicode, description=unicode, content=unicode, json_rpc_id=unicode)
 def store_branding(api_key, description, content, json_rpc_id=None):
     result = call_rogerthat(api_key,
                             method="system.store_branding",
+                            params=dict(description=description,
+                                        content=content),
+                            json_rpc_id=json_rpc_id)
+    return result["id"]
+
+
+@returns(unicode)
+@arguments(api_key=unicode, description=unicode, content=unicode, json_rpc_id=unicode)
+def store_pdf_branding(api_key, description, content, json_rpc_id=None):
+    result = call_rogerthat(api_key,
+                            method="system.store_pdf_branding",
                             params=dict(description=description,
                                         content=content),
                             json_rpc_id=json_rpc_id)
@@ -167,15 +237,13 @@ def put_flow(api_key, xml, multilanguage=True, json_rpc_id=None):
     return result['identifier']
 
 
-@returns(dict)
-@arguments(api_key=unicode, json_rpc_id=unicode)
-def get_menu_item(api_key, json_rpc_id=None):
-    result = call_rogerthat(api_key,
-                            method="system.get_menu_item",
-                            params=dict(),
-                            json_rpc_id=json_rpc_id)
-
-    return result
+@returns(LanguagesTO)
+@arguments(api_key=unicode, app_id=unicode, json_rpc_id=unicode)
+def get_languages(api_key, app_id=None, json_rpc_id=None):
+    method = 'system.get_languages'
+    params = dict()
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(LanguagesTO, result, False)
 
 
 @returns()
@@ -187,6 +255,53 @@ def put_avatar(api_key, base64_image, json_rpc_id=None):
                    json_rpc_id=json_rpc_id)
 
 
+@returns(unicode)
+@arguments(api_key=unicode, json_rpc_id=unicode)
+def get_avatar(api_key, json_rpc_id=None):
+    method = 'system.put_avatar'
+    params = dict()
+    return call_rogerthat(api_key, method, params, json_rpc_id)
+
+
+@returns(ServiceIdentityStatisticsTO)
+@arguments(api_key=unicode, service_identity=unicode, json_rpc_id=unicode)
+def get_statistics(api_key, service_identity=None, json_rpc_id=None):
+    method = 'system.get_statistics'
+    params = dict()
+    if service_identity:
+        params["service_identity"] = service_identity
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(ServiceIdentityStatisticsTO, result, False)
+
+
+@returns(FlowStatisticsListResultTO)
+@arguments(api_key=unicode, tags=[unicode], views=(int, long), time_span=(int, long), group_by=unicode, cursor=unicode,
+           service_identity=unicode, json_rpc_id=unicode)
+def get_flow_statistics(api_key, tags, views, time_span, group_by=None, cursor=None, service_identity=None, json_rpc_id=None):
+    method = 'system.get_flow_statistics'
+    params = dict(tags=tags,
+                  views=views,
+                  time_span=time_span)
+    if group_by:
+        params["group_by"] = group_by
+    if cursor:
+        params["cursor"] = cursor
+    if service_identity:
+        params["service_identity"] = service_identity
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(FlowStatisticsListResultTO, result, False)
+
+
+@returns(unicode)
+@arguments(api_key=unicode, service_identity=unicode, json_rpc_id=unicode)
+def export_flow_statistics(api_key, service_identity=None, json_rpc_id=None):
+    method = 'system.export_flow_statistics'
+    params = dict()
+    if service_identity:
+        params["service_identity"] = service_identity
+    return call_rogerthat(api_key, method, params, json_rpc_id)
+
+
 @returns(long)
 @arguments(api_key=unicode, name=unicode, role_type=unicode, json_rpc_id=unicode)
 def put_role(api_key, name, role_type, json_rpc_id=None):
@@ -195,6 +310,15 @@ def put_role(api_key, name, role_type, json_rpc_id=None):
                           params=dict(name=name,
                                       role_type=role_type),
                           json_rpc_id=json_rpc_id)
+
+
+@returns()
+@arguments(api_key=unicode, role_id=(int, long), cleanup_members=bool, json_rpc_id=unicode)
+def delete_role(api_key, role_id, cleanup_members=False, json_rpc_id=None):
+    method = 'system.delete_role'
+    params = dict(role_id=role_id,
+                  cleanup_members=cleanup_members)
+    call_rogerthat(api_key, method, params, json_rpc_id)
 
 
 @returns()

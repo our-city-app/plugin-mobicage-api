@@ -18,7 +18,25 @@
 from mcfw.rpc import returns, arguments, parse_complex_value, serialize_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to import BaseMemberTO
-from plugins.rogerthat_api.to.friends import ServiceFriendStatusTO
+from plugins.rogerthat_api.to.friends import ServiceFriendStatusTO, \
+    FriendListResultTO, SubscribedBroadcastReachTO
+from plugins.rogerthat_api.to.messaging import BroadcastTargetAudienceTO
+
+
+@returns()
+@arguments(api_key=unicode, email=unicode, name=unicode, message=unicode, language=unicode, tag=unicode, service_identity=unicode, app_id=unicode, json_rpc_id=unicode)
+def invite(api_key, email, name, message, language, tag, service_identity=None, app_id=None, json_rpc_id=None):
+    method = 'friend.invite'
+    params = dict(email=email,
+                  name=name,
+                  message=message,
+                  language=language,
+                  tag=tag)
+    if service_identity:
+        params["service_identity"] = service_identity
+    if app_id:
+        params["app_id"] = app_id
+    call_rogerthat(api_key, method, params, json_rpc_id)
 
 
 @returns()
@@ -42,6 +60,46 @@ def get_status(api_key, email, app_id, service_identity=None, json_rpc_id=None):
                                         service_identity=service_identity),
                             json_rpc_id=json_rpc_id)
     return parse_complex_value(ServiceFriendStatusTO, friend, False)
+
+
+@returns(ServiceFriendStatusTO)
+@arguments(api_key=unicode, url=unicode, service_identity=unicode, json_rpc_id=unicode)
+def resolve(api_key, url, service_identity=None, json_rpc_id=None):
+    method = 'friend.resolve'
+    params = dict(url=url)
+    if service_identity:
+        params["service_identity"] = service_identity
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(ServiceFriendStatusTO, result, False)
+
+
+@returns(FriendListResultTO)
+@arguments(api_key=unicode, service_identity=unicode, cursor=unicode, app_id=unicode, batch_count=(int, long), json_rpc_id=unicode)
+def list_friends(api_key, service_identity=None, cursor=None, app_id=None, batch_count=100, json_rpc_id=None):
+    method = 'friend.list'
+    params = dict()
+    if service_identity:
+        params["service_identity"] = service_identity
+    if cursor:
+        params["cursor"] = cursor
+    if app_id:
+        params["app_id"] = app_id
+    if batch_count:
+        params["batch_count"] = batch_count
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(FriendListResultTO, result, False)
+
+
+@returns(SubscribedBroadcastReachTO)
+@arguments(api_key=unicode, broadcast_type=unicode, target_audience=BroadcastTargetAudienceTO, service_identity=unicode, json_rpc_id=unicode)
+def get_broadcast_reach(api_key, broadcast_type, target_audience, service_identity=None, json_rpc_id=None):
+    method = 'friend.get_broadcast_reach'
+    params = dict(broadcast_type=broadcast_type,
+                  target_audience=target_audience)
+    if service_identity:
+        params["service_identity"] = service_identity
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(SubscribedBroadcastReachTO, result, False)
 
 
 @returns()

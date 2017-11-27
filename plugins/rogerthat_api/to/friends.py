@@ -58,3 +58,13 @@ class ServiceFriendTO(TO):
 class ServiceFriendStatusTO(ServiceFriendTO):
     is_friend = bool_property('101')
     last_heartbeat = long_property('102')
+
+
+class FriendListResultTO(object):
+    cursor = unicode_property('1')
+    friends = typed_property('2', ServiceFriendTO, True)
+
+
+class SubscribedBroadcastReachTO(object):
+    total_users = long_property('1')
+    subscribed_users = long_property('2')

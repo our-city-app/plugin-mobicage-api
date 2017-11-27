@@ -17,7 +17,7 @@
 
 from mcfw.rpc import returns, arguments, parse_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
-from plugins.rogerthat_api.to.qr import QRDetailsTO
+from plugins.rogerthat_api.to.qr import QRDetailsTO, QRTemplateListResultTO
 
 
 @returns(QRDetailsTO)
@@ -35,3 +35,34 @@ def create(api_key, description, tag, template_key=None, service_identity=None, 
                                         branding=branding),
                             json_rpc_id=json_rpc_id)
     return parse_complex_value(QRDetailsTO, result, False)
+
+
+@returns([QRDetailsTO])
+@arguments(api_key=unicode, description=(unicode, [unicode]), tags=[unicode], template_key=unicode, service_identity=unicode,
+           flow=unicode, branding=unicode, json_rpc_id=unicode)
+def bulk_create(api_key, description, tags, template_key=None, service_identity=None, flow=None, branding=None,
+                json_rpc_id=None):
+    method = 'qr.bulk_create'
+    params = dict(description=description,
+                  tags=tags)
+    if template_key:
+        params["template_key"] = template_key
+    if service_identity:
+        params["service_identity"] = service_identity
+    if flow:
+        params["flow"] = flow
+    if branding:
+        params["branding"] = branding
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(QRDetailsTO, result, True)
+
+
+@returns(QRTemplateListResultTO)
+@arguments(QRTemplateListResultTO=unicode, cursor=unicode, json_rpc_id=unicode)
+def list_templates(api_key, cursor=None, json_rpc_id=None):
+    method = 'qr.list_templates'
+    params = dict()
+    if cursor:
+        params["cursor"] = cursor
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(QRTemplateListResultTO, result, False)
