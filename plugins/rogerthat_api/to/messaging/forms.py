@@ -428,6 +428,7 @@ class SingleSelectFormMessageTO(FormMessageTO):
     """
     form = typed_property('51', SingleSelectFormTO, False)
 
+
 class MultiSelectFormTO(FormTO):
     widget = typed_property('2', MultiSelectTO, False)
 
