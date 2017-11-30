@@ -16,3 +16,4 @@
 # @@license_version:1.3@@
 
 NAMESPACE = 'rogerthat_api'
+MC_RESERVED_TAG_PREFIX = u"__rt__"

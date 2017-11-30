@@ -30,6 +30,11 @@ class ServiceIdentityInfoTO(TO):
     app_names = unicode_list_property('7')
 
 
+class ServiceMenuItemLinkTO(TO):
+    url = unicode_property('1')
+    external = bool_property('2', default=False)
+
+
 class BaseServiceMenuItemTO(TO):
     coords = long_list_property('1')
     label = unicode_property('2')
@@ -38,6 +43,10 @@ class BaseServiceMenuItemTO(TO):
     staticFlowHash = unicode_property('5', default=None)
     requiresWifi = bool_property('7', default=False)
     runInBackground = bool_property('8', default=True)
+    action = long_property('9', default=0)
+    roles = long_list_property('10', default=[])
+    link = typed_property('11', ServiceMenuItemLinkTO, False, default=None)
+    fallThrough = bool_property('12', default=False)
 
 
 class ServiceMenuItemTO(BaseServiceMenuItemTO):

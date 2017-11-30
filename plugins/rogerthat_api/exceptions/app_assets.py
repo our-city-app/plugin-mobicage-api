@@ -15,8 +15,19 @@
 #
 # @@license_version:1.3@@
 
-from google.appengine.ext.deferred.deferred import PermanentTaskFailure
+from plugins.rogerthat_api.exceptions import ServiceApiException
 
 
-class BusinessException(PermanentTaskFailure):
-    pass
+class AppAssetNotFoundException(ServiceApiException):
+    def __init__(self, asset_id):
+        code = ServiceApiException.BASE_CODE_APP + 100
+        data = {
+            'asset_id': asset_id
+        }
+        super(AppAssetNotFoundException, self).__init__(code, 'app_asset_not_found', data)
+
+
+class CannotDeleteDefaultAppAssetException(ServiceApiException):
+    def __init__(self):
+        code = ServiceApiException.BASE_CODE_APP + 101
+        super(CannotDeleteDefaultAppAssetException, self).__init__(code, 'cannot_delete_default_app_asset')
