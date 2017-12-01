@@ -14,36 +14,37 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
-from plugins.rogerthat_api.exceptions import ServiceApiException
+
+from plugins.rogerthat_api.api import RogerthatApiException
 
 
-class BrandingValidationException(ServiceApiException):
+class BrandingValidationException(RogerthatApiException):
     def __init__(self, message):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_BRANDING + 0, message)
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_BRANDING + 0, message)
 
 
-class BrandingAlreadyExistsException(ServiceApiException):
+class BrandingAlreadyExistsException(RogerthatApiException):
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_BRANDING + 1, 'Branding already exists.')
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_BRANDING + 1, 'Branding already exists.')
 
 
-class BrandingInUseException(ServiceApiException):
+class BrandingInUseException(RogerthatApiException):
     def __init__(self, message):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_BRANDING + 2, message)
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_BRANDING + 2, message)
 
 
-class BadBrandingZipException(ServiceApiException):
+class BadBrandingZipException(RogerthatApiException):
     def __init__(self, reason):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_BRANDING + 3, 'Bad zip file', reason=reason)
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_BRANDING + 3, 'Bad zip file', reason=reason)
 
 
-class DefaultBrandingRequiredException(ServiceApiException):
+class DefaultBrandingRequiredException(RogerthatApiException):
     def __init__(self):
         message = 'Cannot remove branding, a default branding is required'
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_BRANDING + 4, message)
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_BRANDING + 4, message)
 
 
-class DefaultBrandingNotFoundExcpetion(ServiceApiException):
+class DefaultBrandingNotFoundExcpetion(RogerthatApiException):
     def __init__(self, branding_id):
         message = 'Default branding with id %s not found' % branding_id
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_BRANDING + 5, message)
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_BRANDING + 5, message)

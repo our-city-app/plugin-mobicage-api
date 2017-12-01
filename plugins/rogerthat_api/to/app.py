@@ -26,6 +26,7 @@ class AppInfoTO(TO):
     name = unicode_property('2')
     ios_appstore_url = unicode_property('3')
     android_playstore_url = unicode_property('4')
+    demo = bool_property('5')
 
 
 class AppSettingsTO(TO):

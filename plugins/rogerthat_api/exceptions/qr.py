@@ -1,25 +1,25 @@
-from plugins.rogerthat_api.exceptions import ServiceApiException
+from plugins.rogerthat_api.api import RogerthatApiException
 
 
-class InvalidQRCodeBodyColorException(ServiceApiException):
-
-    def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_QR + 1, "Invalid QR code color specification.")
-
-
-class InvalidQRDescriptionException(ServiceApiException):
+class InvalidQRCodeBodyColorException(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_QR + 2, "Invalid QR code description.")
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_QR + 1, "Invalid QR code color specification.")
 
 
-class InvalidQRTemplateSizeException(ServiceApiException):
-
-    def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_QR + 3, "Invalid QR code template size.")
-
-
-class QrTemplateRequiredException(ServiceApiException):
+class InvalidQRDescriptionException(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_QR + 4, 'At least one QR template must be set')
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_QR + 2, "Invalid QR code description.")
+
+
+class InvalidQRTemplateSizeException(RogerthatApiException):
+
+    def __init__(self):
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_QR + 3, "Invalid QR code template size.")
+
+
+class QrTemplateRequiredException(RogerthatApiException):
+
+    def __init__(self):
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_QR + 4, 'At least one QR template must be set')

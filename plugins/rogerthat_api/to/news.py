@@ -77,10 +77,19 @@ class BaseNewsItemTO(TO):
 
 
 class NewsItemTO(BaseNewsItemTO):
-    TYPE_NORMAL = u'NORMAL'
-    TYPE_QR_CODE = u'QR_CODE'
+    TYPE_NORMAL = 1
+    TYPE_QR_CODE = 2
+    TYPES = (TYPE_QR_CODE, TYPE_NORMAL)
 
-    TYPES = (TYPE_NORMAL, TYPE_QR_CODE)
+    MAX_TITLE_LENGTH = 80
+    MAX_BUTTON_CAPTION_LENGTH = 15
+
+    FLAG_ACTION_ROGERTHAT = 1
+    FLAG_ACTION_FOLLOW = 2
+    FLAG_SILENT = 4
+    DEFAULT_FLAGS = FLAG_ACTION_FOLLOW | FLAG_ACTION_ROGERTHAT
+
+    MAX_BUTTON_COUNT = 3
 
     sticky = bool_property('101')
     sticky_until = long_property('102')

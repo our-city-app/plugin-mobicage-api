@@ -1,64 +1,64 @@
-from plugins.rogerthat_api.exceptions import ServiceApiException
+from plugins.rogerthat_api.api import RogerthatApiException
 
 
-class PersonInvitationOverloadException(ServiceApiException):
+class PersonInvitationOverloadException(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_FRIEND + 2,
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_FRIEND + 2,
                                      "Person was already invited three times.")
 
 
-class PersonAlreadyInvitedThisWeekException(ServiceApiException):
+class PersonAlreadyInvitedThisWeekException(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_FRIEND + 1,
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_FRIEND + 1,
                                      "This person was already invited in the last week.")
 
 
-class InvalidEmailAddressException(ServiceApiException):
+class InvalidEmailAddressException(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_FRIEND + 0,
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_FRIEND + 0,
                                      "Invalid email address.")
 
 
-class CannotSelfInviteException(ServiceApiException):
+class CannotSelfInviteException(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_FRIEND + 3,
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_FRIEND + 3,
                                      "Can not invite myself.")
 
 
-class DoesNotWantToBeInvitedViaEmail(ServiceApiException):
+class DoesNotWantToBeInvitedViaEmail(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_FRIEND + 4,
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_FRIEND + 4,
                                      "This person does not want to be invited anymore via email.")
 
 
-class CanNotRequestLocationFromServices(ServiceApiException):
+class CanNotRequestLocationFromServices(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_FRIEND + 5,
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_FRIEND + 5,
                                      "Cannot request location from service users.")
 
 
-class UserNotFoundViaUserCode(ServiceApiException):
+class UserNotFoundViaUserCode(RogerthatApiException):
 
     def __init__(self, user_code):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_FRIEND + 6,
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_FRIEND + 6,
                                      "User not found via userCode", user_code=user_code)
 
 
-class CanNotInviteFriendException(ServiceApiException):
+class CanNotInviteFriendException(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_FRIEND + 7,
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_FRIEND + 7,
                                      "This person is already your friend")
 
 
-class CanNotInviteOtherServiceException(ServiceApiException):
+class CanNotInviteOtherServiceException(RogerthatApiException):
 
     def __init__(self):
-        ServiceApiException.__init__(self, ServiceApiException.BASE_CODE_FRIEND + 8,
+        RogerthatApiException.__init__(self, RogerthatApiException.BASE_CODE_FRIEND + 8,
                                      "Cannot invite services.")

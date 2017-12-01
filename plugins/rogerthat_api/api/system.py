@@ -79,15 +79,18 @@ def get_identity(api_key, service_identity=None, json_rpc_id=None):
 
 
 @returns()
-@arguments(api_key=unicode, description_branding=unicode, menu_branding=unicode, app_data=dict, json_rpc_id=unicode)
-def put_identity(api_key, description_branding=None, menu_branding=None, app_data=None, json_rpc_id=None):
-    identity = dict()
-    if description_branding is not None:
-        identity['description_branding'] = description_branding
-    if menu_branding is not None:
-        identity['menu_branding'] = menu_branding
-    if app_data is not None:
-        identity['app_data'] = json.dumps(app_data)
+@arguments(api_key=unicode, description_branding=unicode, menu_branding=unicode, app_data=dict,
+           identity=ServiceIdentityDetailsTO, json_rpc_id=unicode)
+def put_identity(api_key, description_branding=None, menu_branding=None, app_data=None,
+                 identity=None, json_rpc_id=None):
+    if not identity:
+        identity = dict()
+        if description_branding is not None:
+            identity['description_branding'] = description_branding
+        if menu_branding is not None:
+            identity['menu_branding'] = menu_branding
+        if app_data is not None:
+            identity['app_data'] = json.dumps(app_data)
     call_rogerthat(api_key,
                    method="system.put_identity",
                    params=dict(identity=identity),

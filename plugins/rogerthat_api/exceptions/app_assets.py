@@ -15,19 +15,19 @@
 #
 # @@license_version:1.3@@
 
-from plugins.rogerthat_api.exceptions import ServiceApiException
+from plugins.rogerthat_api.api import RogerthatApiException
 
 
-class AppAssetNotFoundException(ServiceApiException):
+class AppAssetNotFoundException(RogerthatApiException):
     def __init__(self, asset_id):
-        code = ServiceApiException.BASE_CODE_APP + 100
+        code = RogerthatApiException.BASE_CODE_APP + 100
         data = {
             'asset_id': asset_id
         }
         super(AppAssetNotFoundException, self).__init__(code, 'app_asset_not_found', data)
 
 
-class CannotDeleteDefaultAppAssetException(ServiceApiException):
+class CannotDeleteDefaultAppAssetException(RogerthatApiException):
     def __init__(self):
-        code = ServiceApiException.BASE_CODE_APP + 101
+        code = RogerthatApiException.BASE_CODE_APP + 101
         super(CannotDeleteDefaultAppAssetException, self).__init__(code, 'cannot_delete_default_app_asset')

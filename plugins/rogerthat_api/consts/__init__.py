@@ -16,4 +16,7 @@
 # @@license_version:1.3@@
 
 NAMESPACE = 'rogerthat_api'
+
 MC_RESERVED_TAG_PREFIX = u"__rt__"
+TAG_MC_BROADCAST_SETTINGS = u"%s.broadcast_settings" % MC_RESERVED_TAG_PREFIX
+APP_BROADCAST_TAG = u"%s.app_broadcast" % MC_RESERVED_TAG_PREFIX

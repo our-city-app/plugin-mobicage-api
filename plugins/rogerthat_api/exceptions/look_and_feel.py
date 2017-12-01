@@ -17,16 +17,16 @@
 
 from __future__ import unicode_literals
 
-from plugins.rogerthat_api.exceptions import ServiceApiException
+from plugins.rogerthat_api.api import RogerthatApiException
 
 
-class LookAndFeelNotFoundException(ServiceApiException):
+class LookAndFeelNotFoundException(RogerthatApiException):
     def __init__(self, look_and_feel_id):
         message = "The look and feel with id '%d' cannot be found" % look_and_feel_id
         super(LookAndFeelNotFoundException, self).__init__(self.BASE_CODE_LOOK_AND_FEEL + 1, message, look_and_feel_id=look_and_feel_id)
 
 
-class StyleNotFoundInNavigationItemsException(ServiceApiException):
+class StyleNotFoundInNavigationItemsException(RogerthatApiException):
     def __init__(self, style):
         message = "Style '%s' needs to be in the homescreen.items or toolbar.items" % style
         super(StyleNotFoundInNavigationItemsException, self).__init__(self.BASE_CODE_LOOK_AND_FEEL + 2, message, style=style)
