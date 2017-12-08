@@ -128,6 +128,12 @@ class ServiceIdentityDetailsTO(TO):
     can_edit_supported_apps = bool_property('122')
     beacon_auto_invite = bool_property('123')
     content_branding_hash = unicode_property('124')
+    organization_type = long_property('125')
+
+
+class ServiceIdentityListResultTO(TO):
+    cursor = unicode_property('1')
+    identities = typed_property('2', ServiceIdentityDetailsTO, True)
 
 
 class RoleTO(TO):
@@ -179,7 +185,7 @@ class ServiceIdentityStatisticsTO(TO):
     menu_item_press = typed_property('4', MenuItemPressTO, True)
 
 
-class FlowStepButtonStatisticsTO(object):
+class FlowStepButtonStatisticsTO(TO):
     button_id = unicode_property('1')
     acked_count = typed_property('2', DayStatisticsTO, True)
 
@@ -190,7 +196,7 @@ class FlowStepButtonStatisticsTO(object):
         return None
 
 
-class FlowStepStatisticsTO(object):
+class FlowStepStatisticsTO(TO):
     step_id = unicode_property('1')
     buttons = typed_property('2', FlowStepButtonStatisticsTO, True)
     sent_count = typed_property('3', DayStatisticsTO, True)
@@ -220,3 +226,41 @@ class FlowStatisticsTO(TO):
 class FlowStatisticsListResultTO(TO):
     flow_statistics = typed_property('1', FlowStatisticsTO, True)
     cursor = unicode_property('2')
+
+
+class BrandingTO(TO):
+    TYPE_NORMAL = 1  # This branding can be used for messages/menu/screenBranding/descriptionBranding
+    TYPE_APP = 2  # This branding contains an app.html and can only be used as static branding
+    TYPE_CORDOVA = 3  # This branding contains an cordova.html
+    TYPES = (TYPE_NORMAL, TYPE_APP, TYPE_CORDOVA)
+
+    COLOR_SCHEME_LIGHT = u"light"
+    COLOR_SCHEME_DARK = u"dark"
+    COLOR_SCHEMES = (COLOR_SCHEME_LIGHT, COLOR_SCHEME_DARK)
+
+    DEFAULT_COLOR_SCHEME = COLOR_SCHEME_LIGHT
+    DEFAULT_MENU_ITEM_COLORS = {COLOR_SCHEME_LIGHT: u"000000", COLOR_SCHEME_DARK: u"FFFFFF"}
+
+    id = unicode_property('1')
+    description = unicode_property('2')
+    timestamp = long_property('3')
+    type = long_property('4')
+    created_by_editor = bool_property('5')
+
+
+class APIKeyTO(TO):
+    timestamp = long_property('1')
+    name = unicode_property('2')
+    key = unicode_property('3')
+
+
+class ServiceConfigurationInfoTO(TO):
+    apiKeys = typed_property('1', APIKeyTO, True)
+    sik = unicode_property('3')
+    autoLoginUrl = unicode_property('4')
+
+
+class ServiceCallbackConfigurationTO(TO):
+    uri = unicode_property('1')
+    jid = unicode_property('2')
+    functions = unicode_list_property('3')

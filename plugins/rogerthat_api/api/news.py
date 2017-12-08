@@ -91,8 +91,10 @@ def disable_news(api_key, news_id, members, service_identity=None, json_rpc_id=N
 
 
 @returns(NewsItemListResultTO)
-@arguments(api_key=unicode, cursor=unicode, batch_count=(int, long), service_identity=unicode, updated_since=(int, long), json_rpc_id=unicode)
-def list_news(api_key, cursor=None, batch_count=10, service_identity=None, updated_since=0, json_rpc_id=None):
+@arguments(api_key=unicode, cursor=unicode, batch_count=(int, long), service_identity=unicode, updated_since=(int, long),
+           app_id=unicode, json_rpc_id=unicode)
+def list_news(api_key, cursor=None, batch_count=10, service_identity=None, updated_since=0,
+              app_id=None, json_rpc_id=None):
     method = 'news.list'
     params = dict(batch_count=batch_count,
                   updated_since=updated_since)
@@ -100,6 +102,8 @@ def list_news(api_key, cursor=None, batch_count=10, service_identity=None, updat
         params["cursor"] = cursor
     if service_identity:
         params["service_identity"] = service_identity
+    if app_id:
+        params["app_id"] = app_id
     result = call_rogerthat(api_key, method, params, json_rpc_id)
     return parse_complex_value(NewsItemListResultTO, result, False)
 

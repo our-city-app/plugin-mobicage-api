@@ -129,7 +129,7 @@ class AnswerTO(ButtonTO):
         return a
 
 
-class KeyValueTO(object):
+class KeyValueTO(TO):
     key = unicode_property('1')
     value = unicode_property('2')
 
@@ -196,7 +196,7 @@ class MessageTO(BaseMessageTO):
     dismiss_button_ui_flags = long_property('54', default=0)
 
 
-class ChatMessageTO(object):
+class ChatMessageTO(TO):
     sender = typed_property('1', UserDetailsTO)
     parent_message_key = unicode_property('2')
     message_key = unicode_property('3')
@@ -204,12 +204,12 @@ class ChatMessageTO(object):
     timestamp = long_property('5')
 
 
-class ChatMessageListResultTO(object):
+class ChatMessageListResultTO(TO):
     cursor = unicode_property('1')
     messages = typed_property('2', ChatMessageTO, True)
 
 
-class PokeInformationTO(object):
+class PokeInformationTO(TO):
     description = unicode_property('1')
     tag = unicode_property('2')
     timestamp = long_property('3')

@@ -58,6 +58,8 @@ class ServiceFriendTO(TO):
 class ServiceFriendStatusTO(ServiceFriendTO):
     is_friend = bool_property('101')
     last_heartbeat = long_property('102')
+    devices = unicode_list_property('103')
+    deactivated = bool_property('104')
 
 
 class FriendListResultTO(TO):

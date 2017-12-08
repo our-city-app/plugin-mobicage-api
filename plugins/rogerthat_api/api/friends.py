@@ -17,7 +17,7 @@
 
 from mcfw.rpc import returns, arguments, parse_complex_value, serialize_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
-from plugins.rogerthat_api.to import BaseMemberTO
+from plugins.rogerthat_api.to import BaseMemberTO, UserDetailsTO
 from plugins.rogerthat_api.to.friends import ServiceFriendStatusTO, \
     FriendListResultTO, SubscribedBroadcastReachTO
 from plugins.rogerthat_api.to.messaging import BroadcastTargetAudienceTO
@@ -88,6 +88,19 @@ def list_friends(api_key, service_identity=None, cursor=None, app_id=None, batch
         params["batch_count"] = batch_count
     result = call_rogerthat(api_key, method, params, json_rpc_id)
     return parse_complex_value(FriendListResultTO, result, False)
+
+
+@returns([UserDetailsTO])
+@arguments(api_key=unicode, search_string=unicode, service_identity=unicode, app_id=unicode, json_rpc_id=unicode)
+def search_friends(api_key, search_string, service_identity=None, app_id=None, json_rpc_id=None):
+    method = 'friend.search'
+    params = dict(search_string=search_string)
+    if service_identity:
+        params["service_identity"] = service_identity
+    if app_id:
+        params["app_id"] = app_id
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(UserDetailsTO, result, True)
 
 
 @returns(SubscribedBroadcastReachTO)

@@ -19,10 +19,13 @@ import json
 
 from mcfw.rpc import returns, arguments, parse_complex_value, serialize_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
+from plugins.rogerthat_api.consts.service import ORGANIZATION_TYPE_PROFIT
 from plugins.rogerthat_api.to import BaseMemberTO
 from plugins.rogerthat_api.to.system import ServiceIdentityDetailsTO, RoleTO, \
     ServiceMenuDetailTO, ServiceIdentityInfoTO, LanguagesTO, \
-    ServiceIdentityStatisticsTO, FlowStatisticsListResultTO
+    ServiceIdentityStatisticsTO, FlowStatisticsListResultTO, \
+    ServiceIdentityListResultTO, BrandingTO, ServiceCallbackConfigurationTO, \
+    ServiceConfigurationInfoTO
 
 
 @returns(ServiceIdentityInfoTO)
@@ -57,11 +60,14 @@ def validate_callback_configuration(api_key, enable_on_success=True, callback_na
 
 
 @returns()
-@arguments(api_key=unicode, json_rpc_id=unicode)
-def publish_changes(api_key, json_rpc_id=None):
+@arguments(api_key=unicode, friends=[BaseMemberTO], json_rpc_id=unicode)
+def publish_changes(api_key, friends=None, json_rpc_id=None):
+    params = dict()
+    if friends is not None:
+        params['friends'] = friends
     call_rogerthat(api_key,
                    method="system.publish_changes",
-                   params=dict(),
+                   params=params,
                    json_rpc_id=json_rpc_id)
 
 
@@ -95,6 +101,25 @@ def put_identity(api_key, description_branding=None, menu_branding=None, app_dat
                    method="system.put_identity",
                    params=dict(identity=identity),
                    json_rpc_id=json_rpc_id)
+
+
+@returns()
+@arguments(api_key=unicode, service_identity=unicode, json_rpc_id=unicode)
+def delete_identity(api_key, service_identity, json_rpc_id=None):
+    method = 'system.delete_identity'
+    params = dict(identifier=service_identity)
+    call_rogerthat(api_key, method, params, json_rpc_id)
+
+
+@returns(ServiceIdentityListResultTO)
+@arguments(api_key=unicode, cursor=unicode, json_rpc_id=unicode)
+def list_identities(api_key, cursor=None, json_rpc_id=None):
+    method = 'system.list_identities'
+    params = dict()
+    if cursor:
+        params["cursor"] = cursor
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(ServiceIdentityListResultTO, result, False)
 
 
 @returns()
@@ -168,7 +193,7 @@ def store_branding(api_key, description, content, json_rpc_id=None):
                             params=dict(description=description,
                                         content=content),
                             json_rpc_id=json_rpc_id)
-    return result["id"]
+    return parse_complex_value(BrandingTO, result, False).id
 
 
 @returns(unicode)
@@ -179,7 +204,7 @@ def store_pdf_branding(api_key, description, content, json_rpc_id=None):
                             params=dict(description=description,
                                         content=content),
                             json_rpc_id=json_rpc_id)
-    return result["id"]
+    return parse_complex_value(BrandingTO, result, False).id
 
 
 @returns(dict)
@@ -240,13 +265,78 @@ def put_flow(api_key, xml, multilanguage=True, json_rpc_id=None):
     return result['identifier']
 
 
+@returns(ServiceConfigurationInfoTO)
+@arguments(api_key=unicode, email=unicode, name=unicode, password=unicode, languages=[unicode], category_id=unicode,
+           organization_type=int, fail_if_exists=bool, supported_apps=[unicode],
+           callback_configuration=ServiceCallbackConfigurationTO, beacon_auto_invite=bool, json_rpc_id=unicode)
+def put_service(api_key, email, name, password, languages=None, category_id=None,
+                organization_type=ORGANIZATION_TYPE_PROFIT, fail_if_exists=True, supported_apps=None,
+                callback_configuration=None, beacon_auto_invite=True, json_rpc_id=None):
+    method = 'system.put_service'
+    params = dict(email=email,
+                  name=name,
+                  password=password,
+                  organization_type=organization_type,
+                  fail_if_exists=fail_if_exists,
+                  callback_configuration=callback_configuration,
+                  beacon_auto_invite=beacon_auto_invite)
+    if languages:
+        params["languages"] = languages
+    if category_id:
+        params["category_id"] = category_id
+    if supported_apps:
+        params["supported_apps"] = supported_apps
+    result = call_rogerthat(api_key, method, params, json_rpc_id)
+    return parse_complex_value(ServiceConfigurationInfoTO, result, False)
+
+
+@returns()
+@arguments(api_key=unicode, email=unicode, json_rpc_id=unicode)
+def delete_service(api_key, email, json_rpc_id=None):
+    method = 'system.delete_service'
+    params = dict(email=email)
+    call_rogerthat(api_key, method, params, json_rpc_id)
+
+
+@returns()
+@arguments(api_key=unicode, members=[BaseMemberTO], json_rpc_id=unicode)
+def delete_users(api_key, members, json_rpc_id=None):
+    method = 'system.delete_users'
+    params = dict(members=members)
+    call_rogerthat(api_key, method, params, json_rpc_id)
+
+
+@returns()
+@arguments(api_key=unicode, json_rpc_id=unicode)
+def disable_service(api_key, json_rpc_id=None):
+    method = 'system.disable_service'
+    params = dict()
+    call_rogerthat(api_key, method, params, json_rpc_id)
+
+
+@returns()
+@arguments(api_key=unicode, json_rpc_id=unicode)
+def enable_service(api_key, json_rpc_id=None):
+    method = 'system.enable_service'
+    params = dict()
+    call_rogerthat(api_key, method, params, json_rpc_id)
+
+
 @returns(LanguagesTO)
-@arguments(api_key=unicode, app_id=unicode, json_rpc_id=unicode)
-def get_languages(api_key, app_id=None, json_rpc_id=None):
+@arguments(api_key=unicode, json_rpc_id=unicode)
+def get_languages(api_key, json_rpc_id=None):
     method = 'system.get_languages'
     params = dict()
     result = call_rogerthat(api_key, method, params, json_rpc_id)
     return parse_complex_value(LanguagesTO, result, False)
+
+
+@returns()
+@arguments(api_key=unicode, languages=[unicode], json_rpc_id=unicode)
+def put_languages(api_key, languages, json_rpc_id=None):
+    method = 'system.put_languages'
+    params = dict(languages=languages)
+    call_rogerthat(api_key, method, params, json_rpc_id)
 
 
 @returns()
