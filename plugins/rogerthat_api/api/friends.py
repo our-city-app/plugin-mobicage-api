@@ -50,6 +50,21 @@ def break_up(api_key, email, service_identity=None, app_id=None, json_rpc_id=Non
                    json_rpc_id=json_rpc_id)
 
 
+@returns()
+@arguments(api_key=unicode, user_code=unicode, app_id=unicode, service_email=unicode, service_identity=unicode, json_rpc_id=unicode)
+def connect(api_key, user_code, app_id, service_email, service_identity=None, json_rpc_id=None):
+    params = dict(user_code=user_code,
+                  app_id=app_id,
+                  service_email=service_email)
+    if service_identity:
+        params["service_identity"] = service_identity
+
+    call_rogerthat(api_key,
+                   method="friend.connect",
+                   params=params,
+                   json_rpc_id=json_rpc_id)
+
+
 @returns(ServiceFriendStatusTO)
 @arguments(api_key=unicode, email=unicode, app_id=unicode, service_identity=unicode, json_rpc_id=unicode)
 def get_status(api_key, email, app_id, service_identity=None, json_rpc_id=None):
