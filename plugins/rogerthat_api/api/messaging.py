@@ -18,8 +18,8 @@
 from mcfw.rpc import returns, arguments, serialize_complex_value, parse_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to import MemberTO
-from plugins.rogerthat_api.to.messaging import AnswerTO, AttachmentTO, Message, KeyValueTO, BroadcastResultTO, \
-    BroadcastTargetAudienceTO, ChatMessageListResultTO, PokeInformationTO
+from plugins.rogerthat_api.to.messaging import AnswerTO, AttachmentTO, KeyValueTO, BroadcastResultTO, \
+    BroadcastTargetAudienceTO, ChatMessageListResultTO, PokeInformationTO, Message
 from plugins.rogerthat_api.to.messaging.forms import FormTO
 
 

@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
+
 from framework.to import TO
 from mcfw.properties import unicode_property, long_property, bool_property, typed_property
 from plugins.rogerthat_api.plugin_utils import Enum

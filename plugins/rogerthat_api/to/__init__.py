@@ -14,8 +14,10 @@
 # limitations under the License.
 #
 # @@license_version:1.3@@
+
 from framework.to import TO
 from mcfw.properties import unicode_property, long_property, typed_property, bool_property
+from plugins.oca_auth.utils.app import get_app_user_tuple
 
 
 class PublicKeyTO(TO):
@@ -34,10 +36,29 @@ class UserDetailsTO(TO):
     public_key = unicode_property('6')  # Deprecated
     public_keys = typed_property('7', PublicKeyTO, True, default=[])  # type: list[PublicKeyTO]
 
+    @classmethod
+    def create(cls, email, name, language, avatar_url, app_id, public_key=None, public_keys=None):
+        to = cls()
+        to.email = email
+        to.name = name
+        to.language = language
+        to.avatar_url = avatar_url
+        to.app_id = app_id
+        to.public_key = public_key
+        to.public_keys = public_keys if public_keys else []
+        return to
+
 
 class BaseMemberTO(TO):
     member = unicode_property('1')
     app_id = unicode_property('2')
+
+    @classmethod
+    def from_user(cls, app_user):
+        memberTO = cls()
+        app_user, memberTO.app_id = get_app_user_tuple(app_user)
+        memberTO.member = app_user.email()
+        return memberTO
 
 
 class BaseButtonTO(TO):
@@ -57,6 +78,13 @@ class KeyValueLongTO(TO):
 
 class MemberTO(BaseMemberTO):
     alert_flags = long_property('3')
+
+    @classmethod
+    def from_user(cls, app_user, alert_flags=2):
+        # 2 == Message.ALERT_FLAG_VIBRATE
+        memberTO = super(MemberTO, cls).from_user(app_user)
+        memberTO.alert_flags = alert_flags
+        return memberTO
 
 
 class ReturnStatusTO(TO):

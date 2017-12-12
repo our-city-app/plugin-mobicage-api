@@ -1,5 +1,5 @@
 from plugins.rogerthat_api.api import RogerthatApiException
-from plugins.rogerthat_api.consts import MC_RESERVED_TAG_PREFIX
+from plugins.rogerthat_api.plugin_consts import MC_RESERVED_TAG_PREFIX
 
 
 class InvalidDirtyBehaviorException(RogerthatApiException):

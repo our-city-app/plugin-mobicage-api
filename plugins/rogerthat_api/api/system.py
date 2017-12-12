@@ -19,7 +19,7 @@ import json
 
 from mcfw.rpc import returns, arguments, parse_complex_value, serialize_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
-from plugins.rogerthat_api.consts.service import ORGANIZATION_TYPE_PROFIT
+from plugins.rogerthat_api.plugin_consts.service import ORGANIZATION_TYPE_PROFIT
 from plugins.rogerthat_api.to import BaseMemberTO
 from plugins.rogerthat_api.to.system import ServiceIdentityDetailsTO, RoleTO, \
     ServiceMenuDetailTO, ServiceIdentityInfoTO, LanguagesTO, \

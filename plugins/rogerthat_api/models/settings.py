@@ -17,7 +17,7 @@
 
 from google.appengine.ext import ndb
 
-from plugins.rogerthat_api import plugin_consts
+from plugins.rogerthat_api.plugin_consts import NAMESPACE
 
 
 class RogerthatSettings(ndb.Model):
@@ -30,4 +30,4 @@ class RogerthatSettings(ndb.Model):
 
     @classmethod
     def create_key(cls, sik):
-        return ndb.Key(cls, sik, namespace=plugin_consts.NAMESPACE)
+        return ndb.Key(cls, sik, namespace=NAMESPACE)

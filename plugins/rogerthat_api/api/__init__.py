@@ -23,8 +23,8 @@ from google.appengine.api import urlfetch
 
 from framework.plugin_loader import get_plugin
 from framework.utils import azzert, guid
-from plugins.rogerthat_api.consts import NAMESPACE
 from plugins.rogerthat_api.exceptions import BusinessException
+from plugins.rogerthat_api.plugin_consts import NAMESPACE
 
 
 class RogerthatApiException(BusinessException):
