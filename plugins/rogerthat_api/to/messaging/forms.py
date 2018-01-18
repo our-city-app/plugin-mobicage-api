@@ -366,12 +366,13 @@ class FormTO(TO):
     negative_button_ui_flags = long_property('8')
     javascript_validation = unicode_property('9', default=None)
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.positive_confirmation = None
         self.negative_confirmation = None
         self.javascript_validation = None
         self.positive_button_ui_flags = 0
         self.negative_button_ui_flags = 0
+        super(FormTO, self).__init__(**kwargs)
 
 
 class FormMessageTO(BaseMessageTO):

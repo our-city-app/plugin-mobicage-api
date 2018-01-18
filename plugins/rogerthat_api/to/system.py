@@ -117,3 +117,13 @@ class RoleTO(TO):
     name = unicode_property('2')
     creation_time = long_property('3')
     type = unicode_property('4')
+
+
+class MobileTO(TO):
+    id = unicode_property('id')
+    type = unicode_property('type')
+    description = unicode_property('description')
+    hardware_model = unicode_property('hardware_model')
+    registration_timestamp = long_property('registration_timestamp')
+    os_version = unicode_property('os_version')
+    language = unicode_property('language')

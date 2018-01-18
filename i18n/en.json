@@ -1,0 +1,12 @@
+{
+  "rt": {
+    "android": "Android",
+    "blackberry": "Blackberry",
+    "finished": "Finished",
+    "in_progress": "In progress",
+    "ios": "iOS",
+    "started": "Started",
+    "unknown": "Unknown",
+    "windows_phone": "Windows phone"
+  }
+}

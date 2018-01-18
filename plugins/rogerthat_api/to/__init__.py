@@ -15,7 +15,16 @@
 #
 # @@license_version:1.3@@
 from framework.to import TO
-from mcfw.properties import unicode_property, long_property, typed_property, bool_property
+from mcfw.properties import long_property, unicode_property, bool_property, typed_property
+
+
+class PaginatedResultTO(TO):
+    cursor = unicode_property('cursor')
+    more = bool_property('more')
+    results = typed_property('results', dict, True)  # Must be overwritten by superclass
+
+    def __init__(self, cursor=None, more=False, results=None):
+        super(PaginatedResultTO, self).__init__(cursor=cursor, more=more, results=results or [])
 
 
 class PublicKeyTO(TO):

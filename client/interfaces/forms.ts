@@ -1,4 +1,4 @@
-import { PublicKey } from './profiles';
+import { PublicKey } from './service';
 
 export enum FlowStepType {
   MESSAGE = 'message_step',

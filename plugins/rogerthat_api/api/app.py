@@ -18,6 +18,7 @@
 from mcfw.rpc import returns, arguments, serialize_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to.app import AppSettingsTO
+from plugins.rogerthat_api.to.installation import InstallationListTO, InstallationLogTO, InstallationTO
 
 
 @returns()
@@ -28,3 +29,34 @@ def put_settings(api_key, settings, app_id=None, json_rpc_id=None):
                    params=dict(settings=serialize_complex_value(settings, AppSettingsTO, False),
                                app_id=app_id),
                    json_rpc_id=json_rpc_id)
+
+
+@returns(InstallationListTO)
+@arguments(api_key=unicode, app_id=unicode, cursor=unicode, page_size=(int, long), json_rpc_id=unicode)
+def list_installations(api_key, app_id, cursor=None, page_size=None, json_rpc_id=None):
+    result = call_rogerthat(api_key,
+                            method='app.list_installations',
+                            params={'app_id': app_id, 'cursor': cursor,
+                                    'page_size': page_size},
+                            json_rpc_id=json_rpc_id)
+    return InstallationListTO.from_dict(result)
+
+
+@returns(InstallationTO)
+@arguments(api_key=unicode, installation_id=unicode, json_rpc_id=unicode)
+def get_installation(api_key, installation_id, json_rpc_id=None):
+    result = call_rogerthat(api_key,
+                            method='app.get_installation',
+                            params={'installation_id': installation_id},
+                            json_rpc_id=json_rpc_id)
+    return InstallationTO.from_dict(result)
+
+
+@returns([InstallationLogTO])
+@arguments(api_key=unicode, installation_id=unicode, json_rpc_id=unicode)
+def list_installation_logs(api_key, installation_id, json_rpc_id=None):
+    result = call_rogerthat(api_key,
+                            method='app.list_installation_logs',
+                            params={'installation_id': installation_id},
+                            json_rpc_id=json_rpc_id)
+    return InstallationLogTO.from_dict(result)

@@ -57,7 +57,6 @@ class FlowCallbackResultTypeTO(CallbackResultType):
 TYPE_MESSAGE = u'message'
 TYPE_FORM = u'form'
 TYPE_FLOW = u'flow'
-TYPE_LOCAL_FLOW = u'local_flow'
 CALLBACK_RESULT_TYPE_MAPPING = {
     TYPE_MESSAGE: MessageCallbackResultTypeTO,
     TYPE_FORM: FormCallbackResultTypeTO,
