@@ -34,6 +34,7 @@ def put_settings(api_key, settings, app_id=None, json_rpc_id=None):
 @returns(InstallationListTO)
 @arguments(api_key=unicode, app_id=unicode, cursor=unicode, page_size=(int, long), json_rpc_id=unicode)
 def list_installations(api_key, app_id, cursor=None, page_size=None, json_rpc_id=None):
+    # type: (unicode, unicode, unicode, long, unicode) -> InstallationListTO
     result = call_rogerthat(api_key,
                             method='app.list_installations',
                             params={'app_id': app_id, 'cursor': cursor,
@@ -45,6 +46,7 @@ def list_installations(api_key, app_id, cursor=None, page_size=None, json_rpc_id
 @returns(InstallationTO)
 @arguments(api_key=unicode, installation_id=unicode, json_rpc_id=unicode)
 def get_installation(api_key, installation_id, json_rpc_id=None):
+    # type: (unicode, unicode, unicode) -> InstallationTO
     result = call_rogerthat(api_key,
                             method='app.get_installation',
                             params={'installation_id': installation_id},
@@ -59,4 +61,4 @@ def list_installation_logs(api_key, installation_id, json_rpc_id=None):
                             method='app.list_installation_logs',
                             params={'installation_id': installation_id},
                             json_rpc_id=json_rpc_id)
-    return InstallationLogTO.from_dict(result)
+    return InstallationLogTO.from_list(result)

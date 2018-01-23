@@ -27,16 +27,15 @@ class InstallationTO(TO):
     timestamp = long_property('timestamp')
     app_id = unicode_property('app_id')
     status = unicode_property('status')
-    mobile = typed_property('mobile', MobileTO)
-    user_details = typed_property('user_details', UserDetailsTO)
+    mobile = typed_property('mobile', MobileTO)  # type: MobileTO
+    user_details = typed_property('user_details', UserDetailsTO)  # type: UserDetailsTO
 
 
 class InstallationLogTO(TO):
     description = unicode_property('description')
     pin = long_property('pin')
-    time = unicode_property('time')
     timestamp = long_property('timestamp')
 
 
 class InstallationListTO(PaginatedResultTO):
-    results = typed_property('results', InstallationTO, True)
+    results = typed_property('results', InstallationTO, True)  # type: list[InstallationTO]
