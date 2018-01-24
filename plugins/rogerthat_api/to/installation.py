@@ -16,8 +16,15 @@
 # @@license_version:1.4@@
 from framework.to import TO
 from mcfw.properties import unicode_property, long_property, typed_property
+from plugins.rogerthat_api.plugin_utils import Enum
 from plugins.rogerthat_api.to import PaginatedResultTO, UserDetailsTO
 from plugins.rogerthat_api.to.system import MobileTO
+
+
+class InstallationStatus(Enum):
+    STARTED = 'started'
+    IN_PROGRESS = 'in_progress'
+    FINISHED = 'finished'
 
 
 class InstallationTO(TO):
