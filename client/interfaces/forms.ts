@@ -49,8 +49,8 @@ export interface BaseFlowStep {
 
 export interface FormFlowStep extends BaseFlowStep {
   step_type: FlowStepType.FORM;
-  form_result: FormResult;
-  display_value: string;
+  form_result: FormResult | null;
+  display_value: string | null;
   form_type: WidgetType;
 }
 
