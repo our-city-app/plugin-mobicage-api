@@ -84,7 +84,7 @@ def put_identity(api_key, description_branding=None, menu_branding=None, app_dat
 @returns()
 @arguments(api_key=unicode, icon_name=unicode, tag=unicode, coords=[int], icon_color=unicode, label=unicode,
            screen_branding=unicode, static_flow=unicode, requires_wifi=bool, run_in_background=bool,
-           is_broadcast_settings=bool, broadcast_branding=unicode, roles=[int], action=int, link=unicode,
+           is_broadcast_settings=bool, broadcast_branding=unicode, roles=[(int, long)], action=int, link=unicode,
            fall_through=bool, json_rpc_id=unicode)
 def put_menu_item(api_key, icon_name, tag, coords, icon_color, label, screen_branding=None, static_flow=None,
                   requires_wifi=False, run_in_background=True, is_broadcast_settings=False, broadcast_branding=None,
