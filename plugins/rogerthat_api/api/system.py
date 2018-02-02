@@ -83,18 +83,29 @@ def put_identity(api_key, description_branding=None, menu_branding=None, app_dat
 
 @returns()
 @arguments(api_key=unicode, icon_name=unicode, tag=unicode, coords=[int], icon_color=unicode, label=unicode,
-           screen_branding=unicode, static_flow=unicode, json_rpc_id=unicode)
+           screen_branding=unicode, static_flow=unicode, requires_wifi=bool, run_in_background=bool,
+           is_broadcast_settings=bool, broadcast_branding=unicode, roles=[int], action=int, link=unicode,
+           fall_through=bool, json_rpc_id=unicode)
 def put_menu_item(api_key, icon_name, tag, coords, icon_color, label, screen_branding=None, static_flow=None,
-                  json_rpc_id=None):
+                  requires_wifi=False, run_in_background=True, is_broadcast_settings=False, broadcast_branding=None,
+                  roles=None, action=0, link=None, fall_through=False, json_rpc_id=None):
     call_rogerthat(api_key,
-                   method="system.put_menu_item",
+                   method='system.put_menu_item',
                    params=dict(icon_name=icon_name,
                                tag=tag,
                                coords=coords,
                                icon_color=icon_color,
                                label=label,
                                screen_branding=screen_branding,
-                               static_flow=static_flow),
+                               static_flow=static_flow,
+                               requires_wifi=requires_wifi,
+                               run_in_background=run_in_background,
+                               is_broadcast_settings=is_broadcast_settings,
+                               broadcast_branding=broadcast_branding,
+                               roles=roles or [],
+                               action=action,
+                               link=link,
+                               fall_through=fall_through),
                    json_rpc_id=json_rpc_id)
 
 
@@ -222,8 +233,9 @@ def delete_role_member(api_key, role_id, member, service_identity=None, json_rpc
 @returns([RoleTO])
 @arguments(api_key=unicode, json_rpc_id=unicode)
 def list_roles(api_key, json_rpc_id=None):
+    # type: (unicode, unicode) -> list[RoleTO]
     roles = call_rogerthat(api_key, method="system.list_roles", params=dict(), json_rpc_id=json_rpc_id)
-    return parse_complex_value(RoleTO, roles, True)
+    return RoleTO.from_list(roles)
 
 
 @returns(dict)
