@@ -17,13 +17,13 @@
 
 import httplib
 import json
-import logging
 
 from google.appengine.api import urlfetch
 
 from framework.plugin_loader import get_plugin
 from framework.utils import azzert, guid
 from plugins.rogerthat_api.exceptions import BusinessException
+from plugins.rogerthat_api.hooks import run_hook
 from plugins.rogerthat_api.plugin_consts import NAMESPACE
 
 
@@ -50,15 +50,17 @@ class RogerthatApiUnknownException(Exception):
 
 def call_rogerthat(api_key, method, params, json_rpc_id=None):
     azzert(api_key, 'No API_KEY provided')
-
+    request = {
+        'id': json_rpc_id or guid(),
+        'method': method,
+        'params': params
+    }
+    run_hook('before_api_call', request)
     headers = {
         'Content-Type': 'application/json-rpc; charset=utf-8',
         'X-Nuntiuz-API-key': api_key
     }
-
-    request = dict(id=json_rpc_id or guid(), method=method, params=params)
     json_request = json.dumps(request)
-    logging.debug('Outgoing Rogerthat API call:\n%s', json_request)
 
     api_url = '%s/api/1' % get_plugin(NAMESPACE).configuration.rogerthat_server_url
     result = urlfetch.fetch(api_url, json_request, method=urlfetch.POST, headers=headers, deadline=600)
@@ -66,8 +68,8 @@ def call_rogerthat(api_key, method, params, json_rpc_id=None):
         raise RogerthatApiStatusCodeException(result.status_code)
 
     json_response = str(result.content)
-    logging.debug('Outgoing Rogerthat API call response:\n%s', json_response)
     response = json.loads(json_response)
+    run_hook('after_api_call', method, response)
 
     error = response['error']
     if error:

@@ -22,6 +22,7 @@ from collections import defaultdict
 import webapp2
 from google.appengine.ext import deferred
 
+from plugins.rogerthat_api.hooks import run_hook
 from plugins.rogerthat_api.models.settings import RogerthatSettings
 
 _callbacks = {}
@@ -39,26 +40,21 @@ def subscribe_callback(method, f, trigger_only):
 
 
 def process_callback(request, rt_settings):
-    response = dict()
-    method = request['method']
+    run_hook('before_callback', request)
     id_ = request['id']
-    response['id'] = id_
-    logging.debug('Incoming Rogerthat callback:\n%s', request)
-
-    params = dict()
-    for p, v in request['params'].iteritems():
-        params[str(p)] = v
-
-    m = _callbacks.get(method)
-    if not m:
-        response['result'] = None
-        response['error'] = None
-    else:
+    response = {
+        'error': None,
+        'id': id_,
+        'result': None
+    }
+    method = request['method']
+    params = {str(k): v for k, v in request['params'].iteritems()}
+    callback = _callbacks.get(method)
+    if callback:
         try:
-            response['result'] = m(rt_settings, id_, **params)
-            response['error'] = None
+            # todo: return correct TO in one parameter instead of kwargs
+            response['result'] = callback(rt_settings, id_, **params)
         except Exception as e:
-            response['result'] = None
             response['error'] = str(e)
             logging.exception('Incoming %s Rogerthat callback failed.', method)
 
@@ -66,7 +62,7 @@ def process_callback(request, rt_settings):
         for f in _trigger_callbacks[method]:
             deferred.defer(f, rt_settings, id_, params, response)
 
-    logging.debug('Response for incoming %s Rogerthat callback:\n%s', method, response)
+    run_hook('after_callback', method, response)
     return response
 
 

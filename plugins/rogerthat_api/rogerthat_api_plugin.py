@@ -24,6 +24,7 @@ from mcfw.rpc import parse_complex_value
 from framework.plugin_loader import Plugin
 from framework.utils.plugins import Handler
 from plugins.rogerthat_api.callbacks import CallbackRequestHandler, subscribe_callback
+from plugins.rogerthat_api.hooks import update_hook
 from plugins.rogerthat_api.to.config import RogerthatApiPluginConfiguration
 
 
@@ -49,3 +50,6 @@ class RogerthatApiPlugin(Plugin):
 
     def subscribe(self, method, f, trigger_only=False):
         subscribe_callback(method, f, trigger_only)
+
+    def set_hook(self, hook_name, func):
+        update_hook(hook_name, func)
