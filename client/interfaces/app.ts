@@ -4,7 +4,7 @@ import { Mobile, MobileType } from './system';
 
 export type InstallationsList = PaginatedResult<Installation>;
 
-export enum InstallationStatus {
+export const enum InstallationStatus {
   STARTED = 'started',
   IN_PROGRESS = 'in_progress',
   FINISHED = 'finished'

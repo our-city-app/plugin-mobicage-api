@@ -1,4 +1,4 @@
-export enum MobileType {
+export const enum MobileType {
   ANDROID = 'android',
   IOS = 'ios',
   WINDOWS_PHONE = 'windows',

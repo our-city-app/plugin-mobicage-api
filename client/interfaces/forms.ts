@@ -1,11 +1,11 @@
 import { PublicKey } from './service';
 
-export enum FlowStepType {
+export const enum FlowStepType {
   MESSAGE = 'message_step',
   FORM = 'form_step',
 }
 
-export enum WidgetResultType {
+export const enum WidgetResultType {
   UNICODE = 'unicode_result',
   UNICODE_LIST = 'unicode_list_result',
   LONG = 'long_result',
@@ -18,7 +18,7 @@ export enum WidgetResultType {
   SIGN = 'sign_result',
 }
 
-export enum WidgetType {
+export const enum WidgetType {
   TEXT_LINE = 'text_line',
   TEXT_BLOCK = 'text_block',
   AUTO_COMPLETE = 'auto_complete',
