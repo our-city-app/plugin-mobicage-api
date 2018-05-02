@@ -19,7 +19,7 @@ from mcfw.properties import long_list_property, typed_property, unicode_property
 
 
 class NavigationItemTO(TO):
-    action_type = unicode_property('1')  # null, action, click
+    action_type = unicode_property('1')  # null, action, click, cordova
     # None means opening an activity
     # action means listing all services with that action and opening that action when clicked
     # click means clicking on a service menu item (linked to service_email).
@@ -29,8 +29,10 @@ class NavigationItemTO(TO):
     icon = unicode_property('3')  # font-awesome icon name
     icon_color = unicode_property('4')
     text = unicode_property('5')  # translation key
-    collapse = bool_property('6')
+    # deprecated, should be included in params instead
+    collapse = bool_property('6', default=False)
     service_email = unicode_property('7')
+    params = unicode_property('8', default=None)
 
 
 class ColorSettingsTO(TO):
