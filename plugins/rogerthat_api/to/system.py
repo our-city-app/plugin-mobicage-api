@@ -72,13 +72,6 @@ class SearchConfigTO(TO):
     locations = typed_property('3', ProfileLocationTO, True)
 
 
-class BeaconTO(TO):
-    uuid = unicode_property('1')
-    major = long_property('2')
-    minor = long_property('3')
-    tag = unicode_property('4', default=None)
-
-
 class ServiceIdentityDetailsTO(TO):
     created = long_property('1')
     identifier = unicode_property('2')
@@ -101,12 +94,10 @@ class ServiceIdentityDetailsTO(TO):
     app_data = unicode_property('115')
     email_statistics_use_default = bool_property('116')
     email_statistics = bool_property('117')
-    beacons = typed_property('118', BeaconTO, True)
     app_ids_use_default = bool_property('119')
     app_ids = unicode_list_property('120')
     app_names = unicode_list_property('121')
     can_edit_supported_apps = bool_property('122')
-    beacon_auto_invite = bool_property('123')
     content_branding_hash = unicode_property('124')
 
 
