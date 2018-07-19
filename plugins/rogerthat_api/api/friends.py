@@ -15,40 +15,62 @@
 #
 # @@license_version:1.3@@
 
-from mcfw.rpc import returns, arguments, parse_complex_value, serialize_complex_value
+from mcfw.rpc import arguments
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to import BaseMemberTO
-from plugins.rogerthat_api.to.friends import ServiceFriendStatusTO
+from plugins.rogerthat_api.to.friends import ServiceFriendStatusTO, FriendListResultTO
 
 
-@returns()
 @arguments(api_key=unicode, email=unicode, service_identity=unicode, app_id=unicode, json_rpc_id=unicode)
 def break_up(api_key, email, service_identity=None, app_id=None, json_rpc_id=None):
+    # type: (unicode, unicode, unicode, unicode, unicode) -> None
     call_rogerthat(api_key,
-                   method="friend.break_up",
-                   params=dict(email=email,
-                               service_identity=service_identity,
-                               app_id=app_id),
+                   method='friend.break_up',
+                   params={
+                       'email': email,
+                       'service_identity': service_identity,
+                       'app_id': app_id
+                   },
                    json_rpc_id=json_rpc_id)
 
 
-@returns(ServiceFriendStatusTO)
 @arguments(api_key=unicode, email=unicode, app_id=unicode, service_identity=unicode, json_rpc_id=unicode)
 def get_status(api_key, email, app_id, service_identity=None, json_rpc_id=None):
+    # type: (unicode, unicode, unicode, unicode, unicode) -> ServiceFriendStatusTO
     friend = call_rogerthat(api_key,
                             method='friend.get_status',
-                            params=dict(email=email,
-                                        app_id=app_id,
-                                        service_identity=service_identity),
+                            params={
+                                'email': email,
+                                'app_id': app_id,
+                                'service_identity': service_identity
+                            },
                             json_rpc_id=json_rpc_id)
-    return parse_complex_value(ServiceFriendStatusTO, friend, False)
+    return ServiceFriendStatusTO.from_dict(friend)
 
 
-@returns()
 @arguments(api_key=unicode, members=[BaseMemberTO], service_identities=[unicode], json_rpc_id=unicode)
 def rebuild_synced_roles(api_key, members, service_identities, json_rpc_id=None):
+    # type: (unicode, list[BaseMemberTO], list[unicode], unicode) -> None
     call_rogerthat(api_key,
                    method='friend.rebuild_synced_roles',
-                   params=dict(members=serialize_complex_value(members, BaseMemberTO, True, skip_missing=True),
-                               service_identities=service_identities),
+                   params={
+                       'members': [m.to_dict() for m in members],
+                       'service_identities': service_identities
+                   },
                    json_rpc_id=json_rpc_id)
+
+
+@arguments(api_key=unicode, service_identity=unicode, cursor=unicode, app_id=unicode, batch_count=(int, long),
+           json_rpc_id=unicode)
+def list(api_key, service_identity=None, cursor=None, app_id=None, batch_count=1000, json_rpc_id=None):
+    # type: (unicode, unicode, unicode, unicode, long, unicode) -> FriendListResultTO
+    result = call_rogerthat(api_key,
+                            method='friend.list',
+                            params={
+                                'service_identity': service_identity,
+                                'cursor': cursor,
+                                'app_id': app_id,
+                                'batch_count': batch_count
+                            },
+                            json_rpc_id=json_rpc_id)
+    return FriendListResultTO.from_dict(result)

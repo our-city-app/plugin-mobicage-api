@@ -24,7 +24,6 @@ ACCEPT_AND_CONNECT_ID = u"accept_and_connect"
 DECLINE_ID = u"decline"
 
 REGISTRATION_ORIGIN_DEFAULT = u'default'
-REGISTRATION_ORIGIN_QR = u'qr'
 REGISTRATION_ORIGIN_OAUTH = u'oauth'
 
 
@@ -58,3 +57,8 @@ class ServiceFriendTO(TO):
 class ServiceFriendStatusTO(ServiceFriendTO):
     is_friend = bool_property('101')
     last_heartbeat = long_property('102')
+
+
+class FriendListResultTO(TO):
+    cursor = unicode_property('1')
+    friends = typed_property('2', ServiceFriendTO, True)  # type: list[ServiceFriendTO]

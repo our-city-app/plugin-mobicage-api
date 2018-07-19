@@ -49,6 +49,7 @@ class RogerthatApiUnknownException(Exception):
 
 
 def call_rogerthat(api_key, method, params, json_rpc_id=None):
+    # type: (unicode, unicode, dict, unicode) -> dict
     azzert(api_key, 'No API_KEY provided')
     request = {
         'id': json_rpc_id or guid(),
