@@ -19,7 +19,7 @@
 
 from mcfw.rpc import returns, arguments, serialize_complex_value, parse_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
-from plugins.rogerthat_api.to import MemberTO
+from plugins.rogerthat_api.to import MemberTO, ChatMemberListTO
 from plugins.rogerthat_api.to.messaging import AnswerTO, AttachmentTO, Message, KeyValueTO, BroadcastResultTO, \
     BroadcastTargetAudienceTO
 from plugins.rogerthat_api.to.messaging.forms import FormTO
@@ -165,7 +165,7 @@ def start_chat(api_key, members, topic, description, alert_flags=Message.ALERT_F
 def update_chat(api_key, parent_message_key, topic=None, description=None, flags=None, metadata=None, avatar=None,
                 background_color=None, text_color=None, json_rpc_id=None):
     method = 'messaging.update_chat'
-    params = dict(parent_message_key=parent_message_key)
+    params = {'parent_message_key': parent_message_key}
     if topic:
         params['topic'] = topic
     if description:
@@ -184,11 +184,20 @@ def update_chat(api_key, parent_message_key, topic=None, description=None, flags
     return call_rogerthat(api_key, method, params, json_rpc_id)
 
 
+@returns(ChatMemberListTO)
+@arguments(api_key=unicode, parent_message_key=unicode, cursor=unicode, json_rpc_id=unicode)
+def list_chat_members(api_key, parent_message_key, cursor=None, json_rpc_id=None):
+    # type: (unicode, unicode, unicode, unicode) -> ChatMemberListTO
+    method = 'messaging.list_chat_members'
+    params = {'parent_message_key': parent_message_key, 'cursor': cursor}
+    return ChatMemberListTO.from_dict(call_rogerthat(api_key, method, params, json_rpc_id))
+
+
 @returns(bool)
 @arguments(api_key=unicode, parent_message_key=unicode, json_rpc_id=unicode)
 def delete_chat(api_key, parent_message_key, json_rpc_id=None):
     method = 'messaging.delete_chat'
-    params = dict(parent_message_key=parent_message_key)
+    params = {'parent_message_key': parent_message_key}
     return call_rogerthat(api_key, method, params, json_rpc_id)
 
 

@@ -47,6 +47,12 @@ class UserDetailsTO(TO):
     public_keys = typed_property('7', PublicKeyTO, True, default=[])  # type: list[PublicKeyTO]
 
 
+class ChatMemberListTO(TO):
+    results = typed_property('members', UserDetailsTO, True)  # type: list[UserDetailsTO]
+    can_write = bool_property('can_write')
+    cursor = unicode_property('cursor')
+
+
 class BaseMemberTO(TO):
     member = unicode_property('1')
     app_id = unicode_property('2')
