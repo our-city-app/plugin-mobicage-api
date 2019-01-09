@@ -21,11 +21,10 @@ from __future__ import unicode_literals
 
 import logging
 
-from mcfw.consts import MISSING
-from mcfw.rpc import parse_complex_value
-
 from framework.plugin_loader import Plugin
 from framework.utils.plugins import Handler
+from mcfw.consts import MISSING, DEBUG
+from mcfw.rpc import parse_complex_value
 from plugins.rogerthat_api.callbacks import CallbackRequestHandler, subscribe_callback
 from plugins.rogerthat_api.hooks import update_hook
 from plugins.rogerthat_api.to.config import RogerthatApiPluginConfiguration
@@ -44,7 +43,7 @@ class RogerthatApiPlugin(Plugin):
                          'to an appengine application url (<project-id>.appspot.com) to decrease the latency of the'
                          ' requests to rogerthat.')
             self.configuration.rogerthat_server_url = 'https://rogerth.at'
-        elif 'localhost' in self.configuration.rogerthat_server_url:
+        elif 'localhost' in self.configuration.rogerthat_server_url and not DEBUG:
             logging.error('Invalid rogerthat_server_url %s', self.configuration.rogerthat_server_url)
 
     def get_handlers(self, auth):
