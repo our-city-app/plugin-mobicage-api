@@ -121,3 +121,16 @@ class MobileTO(TO):
     registration_timestamp = long_property('registration_timestamp')
     os_version = unicode_property('os_version')
     language = unicode_property('language')
+
+
+class BrandingTO(TO):
+    id = unicode_property('1')
+    description = unicode_property('2')
+    timestamp = long_property('3')
+    type = long_property('4')
+    created_by_editor = bool_property('5')
+
+
+class ReplacedBrandingsTO(TO):
+    new_branding = typed_property('new_branding', BrandingTO)  # type: BrandingTO
+    replaced_branding_hashes = unicode_list_property('replaced_branding_hashes')  # type: list[unicode]

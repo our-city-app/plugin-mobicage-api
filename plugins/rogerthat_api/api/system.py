@@ -22,7 +22,7 @@ import json
 from mcfw.rpc import returns, arguments, parse_complex_value, serialize_complex_value
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to import BaseMemberTO
-from plugins.rogerthat_api.to.system import ServiceIdentityDetailsTO, RoleTO
+from plugins.rogerthat_api.to.system import ServiceIdentityDetailsTO, RoleTO, BrandingTO, ReplacedBrandingsTO
 
 
 @returns(dict)
@@ -57,6 +57,7 @@ def publish_changes(api_key, json_rpc_id=None):
 @returns(ServiceIdentityDetailsTO)
 @arguments(api_key=unicode, service_identity=unicode, json_rpc_id=unicode)
 def get_identity(api_key, service_identity=None, json_rpc_id=None):
+    # type: (unicode, unicode, unicode) -> ServiceIdentityDetailsTO
     params = dict()
     if service_identity is not None:
         params['service_identity'] = service_identity
@@ -64,7 +65,7 @@ def get_identity(api_key, service_identity=None, json_rpc_id=None):
                         method="system.get_identity",
                         params=params,
                         json_rpc_id=json_rpc_id)
-    return parse_complex_value(ServiceIdentityDetailsTO, si, False)
+    return ServiceIdentityDetailsTO.from_dict(si)
 
 
 @returns()
@@ -111,15 +112,22 @@ def put_menu_item(api_key, icon_name, tag, coords, icon_color, label, screen_bra
                    json_rpc_id=json_rpc_id)
 
 
-@returns(unicode)
 @arguments(api_key=unicode, description=unicode, content=unicode, json_rpc_id=unicode)
 def store_branding(api_key, description, content, json_rpc_id=None):
     result = call_rogerthat(api_key,
                             method="system.store_branding",
-                            params=dict(description=description,
-                                        content=content),
+                            params={'description': description, 'content': content},
                             json_rpc_id=json_rpc_id)
-    return result["id"]
+    return BrandingTO.from_dict(result)
+
+
+@arguments(api_key=unicode, description=unicode, content=unicode, json_rpc_id=unicode)
+def replace_branding(api_key, description, content, json_rpc_id=None):
+    result = call_rogerthat(api_key,
+                            'system.replace_branding',
+                            {'description': description, 'content': content},
+                            json_rpc_id)
+    return ReplacedBrandingsTO.from_dict(result)
 
 
 @returns(dict)
