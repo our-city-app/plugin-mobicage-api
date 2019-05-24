@@ -1,0 +1,3 @@
+libraries:
+- name: lxml
+  version: "3.7.3"
