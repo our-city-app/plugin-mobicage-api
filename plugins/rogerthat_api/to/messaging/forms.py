@@ -42,8 +42,11 @@ class Widget(TO):
     TYPE_PHOTO_UPLOAD = u"photo_upload"
     TYPE_GPS_LOCATION = u"gps_location"
     TYPE_MYDIGIPASS = u"mydigipass"
+    TYPE_OPENID = u"openid"
     TYPE_ADVANCED_ORDER = u"advanced_order"
     TYPE_SIGN = u"sign"
+    TYPE_OAUTH = u"oauth"
+    TYPE_PAY = u"pay"
 
 
 class ChoiceTO(TO):
@@ -193,6 +196,12 @@ class SignTO(Widget):
     index = unicode_property('55', default=None)
 
 
+class OpenIdTO(Widget):
+    TYPE = Widget.TYPE_OPENID
+    scope = unicode_property('scope')
+    provider = unicode_property('provider')
+
+
 class WidgetResult(TO):
     TYPE_UNICODE = u"unicode_result"
     TYPE_UNICODE_LIST = u"unicode_list_result"
@@ -202,8 +211,10 @@ class WidgetResult(TO):
     TYPE_FLOAT_LIST = u"float_list_result"
     TYPE_LOCATION = u"location_result"
     TYPE_MYDIGIPASS = u"mydigipass_result"
+    TYPE_OPENID = u"itsme"
     TYPE_ADVANCED_ORDER = u"advanced_order_result"
     TYPE_SIGN = u'sign_result'
+    TYPE_PAY = u'pay_result'
 
     def get_value(self):
         raise NotImplementedError()
@@ -344,16 +355,42 @@ class SignWidgetResultTO(WidgetResult):
         return self
 
 
+class OpenIdAddressTO(TO):
+    street_address = unicode_property('street_address', default=None)
+    locality = unicode_property('locality', default=None)
+    postal_code = unicode_property('postal_code', default=None)
+    country = unicode_property('country', default=None)
+
+
+class OpenIdWidgetResultTO(WidgetResult):
+    TYPE = WidgetResult.TYPE_OPENID
+    # See https://openid.net/specs/openid-connect-basic-1_0.html#rfc.section.2.5
+    family_name = unicode_property('family_name', default=None)
+    given_name = unicode_property('given_name', default=None)
+    name = unicode_property('name', default=None)
+    gender = unicode_property('gender', default=None)
+    birthdate = unicode_property('birthdate', default=None)
+    locale = unicode_property('locale', default=None)
+    email = unicode_property('email', default=None)
+    email_verified = bool_property('email_verified', default=False)
+    phone_number = unicode_property('phone_number', default=None)
+    phone_number_verified = bool_property('phone_number_verified', default=False)
+    address = typed_property('address', OpenIdAddressTO, default=None)  # type: OpenIdAddressTO
+
+    def get_value(self):
+        return self
+
+
 WIDGET_TO_MAPPING.update(
     {cls.TYPE: cls for cls in (TextLineTO, TextBlockTO, AutoCompleteTO, SingleSelectTO, MultiSelectTO, DateSelectTO,
                                FriendSelectTO, SingleSliderTO, RangeSliderTO, GPSLocationTO, PhotoUploadTO,
-                               AdvancedOrderTO, SignTO)})
+                               AdvancedOrderTO, SignTO, OpenIdTO)})
 
 WIDGET_RESULT_TO_MAPPING.update(
     {cls.TYPE: cls for cls in (
         UnicodeWidgetResultTO, UnicodeListWidgetResultTO, LongWidgetResultTO, LongListWidgetResultTO,
         FloatWidgetResultTO, FloatListWidgetResultTO, LocationWidgetResultTO, AdvancedOrderWidgetResultTO,
-        SignWidgetResultTO)})
+        SignWidgetResultTO, OpenIdWidgetResultTO)})
 
 
 class FormTO(TO):
@@ -503,3 +540,11 @@ class SignFormTO(FormTO):
 
 class SignFormMessageTO(FormMessageTO):
     form = typed_property('51', SignFormTO, False)
+
+
+class OpenIdFormTO(FormTO):
+    widget = typed_property('51', OpenIdTO, False)
+
+
+class OpenIdFormMessageTO(FormMessageTO):
+    form = typed_property('51', OpenIdFormTO, False)
