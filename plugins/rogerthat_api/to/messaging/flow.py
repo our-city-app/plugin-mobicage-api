@@ -18,7 +18,7 @@
 # @@license_version:1.6@@
 
 from framework.to import TO
-from mcfw.properties import unicode_property, long_property, typed_property
+from mcfw.properties import unicode_property, long_property, typed_property, object_factory
 from plugins.rogerthat_api.to.messaging.forms import FormResultTO, FormTO
 
 
@@ -60,3 +60,13 @@ class FormFlowStepTO(BaseFlowStepTO):
 
 
 FLOW_STEP_MAPPING = {MessageFlowStepTO.TYPE: MessageFlowStepTO, FormFlowStepTO.TYPE: FormFlowStepTO}
+
+
+class FlowStepTO(object_factory):
+    step_type = unicode_property('step_type')
+
+    def __init__(self):
+        super(FlowStepTO, self).__init__('step_type', FLOW_STEP_MAPPING)
+
+
+FLOW_STEP_TO = FlowStepTO()
