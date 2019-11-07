@@ -17,9 +17,10 @@
 #
 # @@license_version:1.6@@
 
-from framework.to import TO
 from mcfw.consts import MISSING
 from mcfw.properties import bool_property, long_list_property
+
+from framework.to import TO
 
 
 class AppSettingsTO(TO):

@@ -18,6 +18,7 @@
 # @@license_version:1.6@@
 
 from mcfw.rpc import returns, arguments, serialize_complex_value
+
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to.app import AppSettingsTO
 from plugins.rogerthat_api.to.installation import InstallationListTO, InstallationLogTO, InstallationTO

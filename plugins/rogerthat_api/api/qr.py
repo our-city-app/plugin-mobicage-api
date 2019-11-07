@@ -18,6 +18,7 @@
 # @@license_version:1.6@@
 
 from mcfw.rpc import returns, arguments, parse_complex_value
+
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to.qr import QRDetailsTO
 

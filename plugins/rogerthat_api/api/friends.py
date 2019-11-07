@@ -18,6 +18,7 @@
 # @@license_version:1.6@@
 
 from mcfw.rpc import arguments
+
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to import BaseMemberTO
 from plugins.rogerthat_api.to.friends import ServiceFriendStatusTO, FriendListResultTO

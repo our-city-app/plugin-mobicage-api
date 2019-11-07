@@ -17,9 +17,10 @@
 #
 # @@license_version:1.6@@
 
-from framework.to import TO
 from mcfw.properties import float_property, unicode_property, long_property, typed_property, unicode_list_property, \
     bool_property, long_list_property, float_list_property
+
+from framework.to import TO
 from plugins.rogerthat_api.plugin_utils import Enum
 from plugins.rogerthat_api.to import PublicKeyTO
 from plugins.rogerthat_api.to.messaging import MemberStatusTO, BaseMessageTO

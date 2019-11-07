@@ -17,8 +17,9 @@
 #
 # @@license_version:1.6@@
 
-from framework.to import TO
 from mcfw.properties import long_property, unicode_property, bool_property, typed_property
+
+from framework.to import TO
 
 
 class PaginatedResultTO(TO):

@@ -17,8 +17,9 @@
 #
 # @@license_version:1.6@@
 
-from framework.to import TO
 from mcfw.properties import long_list_property, typed_property, unicode_property, long_property, bool_property
+
+from framework.to import TO
 
 
 class NavigationItemTO(TO):

@@ -18,8 +18,9 @@
 # @@license_version:1.6@@
 
 from mcfw.rpc import returns, arguments, serialize_complex_value, parse_complex_value
+
 from plugins.rogerthat_api.api import call_rogerthat
-from plugins.rogerthat_api.to import MemberTO, ChatMemberListTO
+from plugins.rogerthat_api.to import MemberTO
 from plugins.rogerthat_api.to.messaging import AnswerTO, AttachmentTO, Message, KeyValueTO, BroadcastResultTO, \
     BroadcastTargetAudienceTO
 from plugins.rogerthat_api.to.messaging.forms import FormTO

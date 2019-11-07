@@ -19,7 +19,8 @@
 
 import json
 
-from mcfw.rpc import returns, arguments, parse_complex_value, serialize_complex_value
+from mcfw.rpc import returns, arguments, serialize_complex_value
+
 from plugins.rogerthat_api.api import call_rogerthat
 from plugins.rogerthat_api.to import BaseMemberTO
 from plugins.rogerthat_api.to.system import ServiceIdentityDetailsTO, RoleTO, BrandingTO, ReplacedBrandingsTO

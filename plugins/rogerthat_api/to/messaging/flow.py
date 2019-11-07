@@ -17,8 +17,9 @@
 #
 # @@license_version:1.6@@
 
-from framework.to import TO
 from mcfw.properties import unicode_property, long_property, typed_property, object_factory
+
+from framework.to import TO
 from plugins.rogerthat_api.to.messaging.forms import FormResultTO, FormTO
 
 

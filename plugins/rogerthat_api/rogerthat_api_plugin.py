@@ -21,10 +21,11 @@ from __future__ import unicode_literals
 
 import logging
 
-from framework.plugin_loader import Plugin
-from framework.utils.plugins import Handler
 from mcfw.consts import MISSING, DEBUG
 from mcfw.rpc import parse_complex_value
+
+from framework.plugin_loader import Plugin
+from framework.utils.plugins import Handler
 from plugins.rogerthat_api.callbacks import CallbackRequestHandler, subscribe_callback
 from plugins.rogerthat_api.hooks import update_hook
 from plugins.rogerthat_api.to.config import RogerthatApiPluginConfiguration
@@ -38,7 +39,7 @@ class RogerthatApiPlugin(Plugin):
                                                  False)  # type: RogerthatApiPluginConfiguration
         if self.configuration.rogerthat_server_url is MISSING \
             or not self.configuration.rogerthat_server_url \
-                or self.configuration.rogerthat_server_url == 'https://rogerth.at':
+            or self.configuration.rogerthat_server_url == 'https://rogerth.at':
             logging.warn('[RogerthatApiPlugin]: Set the \'rogerthat_server_url\' in the configuration file'
                          'to an appengine application url (<project-id>.appspot.com) to decrease the latency of the'
                          ' requests to rogerthat.')

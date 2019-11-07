@@ -17,8 +17,9 @@
 #
 # @@license_version:1.6@@
 
-from framework.to import TO
 from mcfw.properties import unicode_property, typed_property, long_property
+
+from framework.to import TO
 from plugins.rogerthat_api.to.messaging import AnswerTO, AttachmentTO
 from plugins.rogerthat_api.to.messaging.forms import FormTO
 

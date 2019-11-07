@@ -17,8 +17,9 @@
 #
 # @@license_version:1.6@@
 
-from framework.to import TO
 from mcfw.properties import unicode_property
+
+from framework.to import TO
 
 
 class RogerthatApiPluginConfiguration(TO):

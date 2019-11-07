@@ -17,10 +17,10 @@
 #
 # @@license_version:1.6@@
 
-from framework.to import TO
 from mcfw.properties import unicode_property, unicode_list_property, long_list_property, typed_property, \
     bool_property, long_property
 
+from framework.to import TO
 
 ACCEPT_ID = u"accepted"
 ACCEPT_AND_CONNECT_ID = u"accept_and_connect"
